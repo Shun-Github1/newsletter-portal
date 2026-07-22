@@ -5,6 +5,7 @@ import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
 import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
 import 'package:newsletter_portal/presentation/widgets/section_config_card.dart';
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/report_provider.dart';
 import 'package:newsletter_portal/presentation/providers/auth_provider.dart';
 import 'package:newsletter_portal/presentation/providers/preset_provider.dart';
@@ -112,7 +113,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTopBar(context),
-            const Divider(height: 1, color: Color(0xFF2A2A2A)),
+            Divider(height: 1, color: AppColors.of(context).border),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(AppSpacing.md),
@@ -157,10 +158,10 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                       );
                       ref.read(reportStateProvider.notifier).addSection(newSection);
                     },
-                    icon: const Icon(Icons.add, color: AppColors.accent),
-                    label: Text('Add Section', style: AppTypography.labelLarge.copyWith(color: AppColors.accent)),
+                    icon: Icon(Icons.add, color: AppColors.of(context).textPrimary),
+                    label: Text('Add Section', style: AppTypography.labelLarge.copyWith(color: AppColors.of(context).textPrimary)),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF2A2A2A)),
+                      side: BorderSide(color: AppColors.of(context).border),
                       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
@@ -198,17 +199,17 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                       SnackBar(
                         content: Text('Preset "${activePreset.name}" saved successfully!', style: AppTypography.monoSmall),
                         duration: const Duration(seconds: 2),
-                        backgroundColor: const Color(0xFF1E1E1E),
+                        backgroundColor: AppColors.of(context).surface,
                       ),
                     );
                   }
                 },
-                icon: const Icon(Icons.save, size: 16, color: AppColors.accent),
-                label: Text('SAVE PRESET CONFIG', style: AppTypography.monoSmall.copyWith(color: AppColors.accent, fontWeight: FontWeight.bold)),
+                icon: Icon(Icons.save_outlined, size: 16, color: AppColors.of(context).textPrimary),
+                label: Text('Save preset', style: AppTypography.labelMedium.copyWith(color: AppColors.of(context).textPrimary, fontWeight: FontWeight.w600)),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppColors.accent),
+                  side: BorderSide(color: AppColors.of(context).border),
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
@@ -217,12 +218,10 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                   ref.read(reportStateProvider.notifier).proceedToSelection();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
-                  foregroundColor: const Color(0xFF0D0D0D),
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
                 ),
-                child: Text('Select Articles →', style: AppTypography.monoSmall.copyWith(fontWeight: FontWeight.bold, color: AppColors.background)),
+                child: Text('Select articles', style: AppTypography.labelMedium.copyWith(fontWeight: FontWeight.w600, color: AppColors.onAccent)),
               ),
             ],
           ),
@@ -237,8 +236,8 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        border: Border.all(color: const Color(0xFF2A2A2A)),
+        color: AppColors.of(context).surface,
+        border: Border.all(color: AppColors.of(context).border),
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -267,8 +266,8 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     ChoiceChip(
                       label: Text('Point Form', style: AppTypography.labelMedium),
                       selected: mode == SummaryMode.pointForm,
-                      selectedColor: AppColors.accent.withValues(alpha: 0.2),
-                      side: BorderSide(color: mode == SummaryMode.pointForm ? AppColors.accent : const Color(0xFF2A2A2A)),
+                      selectedColor: AppColors.of(context).surfaceHover,
+                      side: BorderSide(color: mode == SummaryMode.pointForm ? AppColors.of(context).textPrimary : AppColors.of(context).border),
                       onSelected: (selected) {
                         if (selected) {
                           ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.pointForm, language);
@@ -278,8 +277,8 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     ChoiceChip(
                       label: Text('Paragraph', style: AppTypography.labelMedium),
                       selected: mode == SummaryMode.paragraph,
-                      selectedColor: AppColors.accent.withValues(alpha: 0.2),
-                      side: BorderSide(color: mode == SummaryMode.paragraph ? AppColors.accent : const Color(0xFF2A2A2A)),
+                      selectedColor: AppColors.of(context).surfaceHover,
+                      side: BorderSide(color: mode == SummaryMode.paragraph ? AppColors.of(context).textPrimary : AppColors.of(context).border),
                       onSelected: (selected) {
                         if (selected) {
                           ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.paragraph, language);
@@ -324,8 +323,8 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
     return ChoiceChip(
       label: Text(label, style: AppTypography.labelMedium),
       selected: isSelected,
-      selectedColor: AppColors.accent.withValues(alpha: 0.2),
-      side: BorderSide(color: isSelected ? AppColors.accent : const Color(0xFF2A2A2A)),
+      selectedColor: AppColors.of(context).surfaceHover,
+      side: BorderSide(color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).border),
       onSelected: (selected) {
         if (selected) {
           ref.read(reportStateProvider.notifier).updateGlobalSettings(mode, code);
@@ -338,8 +337,8 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
   Widget _build3TierTemplateArea() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        border: Border.all(color: const Color(0xFF2A2A2A)),
+        color: AppColors.of(context).surface,
+        border: Border.all(color: AppColors.of(context).border),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -358,21 +357,20 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.description, size: 18, color: AppColors.accent),
+                      const AppIcon(Icons.description, size: 18),
                       const SizedBox(width: AppSpacing.sm),
                       Text('Template Editor', style: AppTypography.titleMedium),
                     ],
                   ),
-                  Icon(
+                  AppIcon(
                     _isTemplateExpanded ? Icons.expand_less : Icons.expand_more,
-                    color: Colors.grey,
                   ),
                 ],
               ),
             ),
           ),
           if (_isTemplateExpanded) ...[
-            const Divider(height: 1, color: Color(0xFF2A2A2A)),
+            Divider(height: 1, color: AppColors.of(context).border),
             Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Column(
@@ -434,46 +432,46 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
   Widget _buildTier1SequenceBuilderBox() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D0D),
-        border: Border.all(color: const Color(0xFF262626)),
+        color: AppColors.of(context).background,
+        border: Border.all(color: AppColors.of(context).border),
         borderRadius: BorderRadius.circular(6),
       ),
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Tier 1: Document Header Format Builder', style: AppTypography.titleSmall.copyWith(color: AppColors.accent)),
+          Text('Tier 1: Document Header Format Builder', style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textPrimary)),
           const SizedBox(height: 2),
-          Text('Configure document title text and top-level header metadata format.', style: AppTypography.monoTiny.copyWith(color: AppColors.textSecondary)),
+          Text('Configure document title text and top-level header metadata format.', style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary)),
           const SizedBox(height: AppSpacing.md),
 
           // Inline Document Title Input Field
           Row(
             children: [
-              Text('[DOCUMENT_TITLE] Text:', style: AppTypography.monoSmall.copyWith(color: AppColors.accent, fontWeight: FontWeight.bold)),
+              Text('[DOCUMENT_TITLE] Text:', style: AppTypography.monoSmall.copyWith(color: AppColors.of(context).textPrimary, fontWeight: FontWeight.bold)),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: TextField(
                   controller: _docTitleController,
                   onChanged: (_) => _onTemplatesChanged(),
-                  style: AppTypography.monoMedium.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: AppTypography.monoMedium.copyWith(color: AppColors.of(context).textPrimary, fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     isDense: true,
                     hintText: 'e.g. APAC MEDIA MONITORING REPORT',
-                    hintStyle: AppTypography.monoSmall.copyWith(color: Colors.grey),
+                    hintStyle: AppTypography.monoSmall.copyWith(color: AppColors.of(context).textTertiary),
                     filled: true,
-                    fillColor: const Color(0xFF141414),
+                    fillColor: AppColors.of(context).surfaceVariant,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: const BorderSide(color: Color(0xFF2A2A2A)),
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                      borderSide: BorderSide(color: AppColors.of(context).border),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: const BorderSide(color: Color(0xFF2A2A2A)),
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                      borderSide: BorderSide(color: AppColors.of(context).border),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: const BorderSide(color: AppColors.accent),
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                      borderSide: BorderSide(color: AppColors.of(context).textPrimary, width: 1.5),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   ),
@@ -514,17 +512,17 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D0D),
-        border: Border.all(color: const Color(0xFF262626)),
+        color: AppColors.of(context).background,
+        border: Border.all(color: AppColors.of(context).border),
         borderRadius: BorderRadius.circular(6),
       ),
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(tierTitle, style: AppTypography.titleSmall.copyWith(color: AppColors.accent)),
+          Text(tierTitle, style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textPrimary)),
           const SizedBox(height: 2),
-          Text(tierSubtitle, style: AppTypography.monoTiny.copyWith(color: AppColors.textSecondary)),
+          Text(tierSubtitle, style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary)),
           const SizedBox(height: AppSpacing.md),
           _buildSequenceBuilderInner(
             tierTitle: tierTitle,
@@ -547,18 +545,18 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Active Elements Sequence Display (With '-' remove controls)
-        Text('Active Format Sequence:', style: AppTypography.monoTiny.copyWith(color: Colors.grey.shade400)),
+        Text('Active Format Sequence:', style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary)),
         const SizedBox(height: 6),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: const Color(0xFF141414),
-            border: Border.all(color: const Color(0xFF2A2A2A)),
+            color: AppColors.of(context).surface,
+            border: Border.all(color: AppColors.of(context).border),
             borderRadius: BorderRadius.circular(4),
           ),
           child: elements.isEmpty
-              ? Text('No elements added. Click "+" below to add elements.', style: AppTypography.monoTiny.copyWith(color: Colors.grey))
+              ? Text('No elements added. Click "+" below to add elements.', style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary))
               : Wrap(
                   spacing: 6,
                   runSpacing: 6,
@@ -570,11 +568,11 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: isLineBreak ? const Color(0xFF332A00) : const Color(0xFF00382B),
+                        color: isLineBreak ? Color(0xFFFCF3E6) : AppColors.of(context).surfaceHover,
                         border: Border.all(
-                          color: isLineBreak ? const Color(0xFFFFB000) : const Color(0xFF00D4AA),
+                          color: isLineBreak ? AppColors.warning : AppColors.of(context).border,
                         ),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(AppRadius.sm),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -582,7 +580,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                           Text(
                             isLineBreak ? '⏎ LINE BREAK' : item,
                             style: AppTypography.monoTiny.copyWith(
-                              color: isLineBreak ? const Color(0xFFFFB000) : const Color(0xFF00D4AA),
+                              color: isLineBreak ? AppColors.warning : AppColors.of(context).textPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -595,7 +593,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                             child: Icon(
                               Icons.close,
                               size: 12,
-                              color: isLineBreak ? const Color(0xFFFFB000) : const Color(0xFF00D4AA),
+                              color: isLineBreak ? AppColors.warning : AppColors.of(context).textSecondary,
                             ),
                           ),
                         ],
@@ -607,7 +605,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
         const SizedBox(height: AppSpacing.md),
 
         // Available Elements Bar (With '+' Add controls and '+ LINE BREAK')
-        Text('Available Fixed Elements & Line Breaks:', style: AppTypography.monoTiny.copyWith(color: Colors.grey.shade400)),
+        Text('Available Fixed Elements & Line Breaks:', style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary)),
         const SizedBox(height: 6),
         Wrap(
           spacing: 6,
@@ -623,19 +621,19 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1E),
-                    border: Border.all(color: AppColors.accent.withValues(alpha: 0.4)),
+                    color: AppColors.of(context).surface,
+                    border: Border.all(color: AppColors.of(context).border),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.add, size: 12, color: AppColors.accent),
+                      Icon(Icons.add, size: 12, color: AppColors.of(context).textSecondary),
                       const SizedBox(width: 4),
                       Text(
                         elem,
                         style: AppTypography.monoTiny.copyWith(
-                          color: AppColors.accent,
+                          color: AppColors.of(context).textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -654,19 +652,19 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF332A00),
-                  border: Border.all(color: const Color(0xFFFFB000)),
-                  borderRadius: BorderRadius.circular(4),
+                  color: const Color(0xFFFCF3E6),
+                  border: Border.all(color: AppColors.warning),
+                  borderRadius: BorderRadius.circular(AppRadius.sm),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.add, size: 12, color: Color(0xFFFFB000)),
+                    const Icon(Icons.add, size: 12, color: AppColors.warning),
                     const SizedBox(width: 4),
                     Text(
                       '⏎ LINE BREAK',
                       style: AppTypography.monoTiny.copyWith(
-                        color: const Color(0xFFFFB000),
+                        color: AppColors.warning,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -698,16 +696,16 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     SnackBar(
                       content: Text('$tierTitle format reset to default!', style: AppTypography.monoSmall),
                       duration: const Duration(seconds: 2),
-                      backgroundColor: const Color(0xFF1E1E1E),
+                      backgroundColor: AppColors.of(context).surface,
                     ),
                   );
                 },
-                icon: const Icon(Icons.refresh, size: 12, color: Colors.orangeAccent),
-                label: Text('RESET FORMAT', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: Colors.orangeAccent)),
+                icon: Icon(Icons.refresh, size: 12, color: AppColors.of(context).textSecondary),
+                label: Text('Reset', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: AppColors.of(context).textSecondary)),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.orangeAccent),
+                  side: BorderSide(color: AppColors.of(context).border),
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.sm)),
                 ),
               ),
               const SizedBox(width: AppSpacing.xs),
@@ -718,16 +716,15 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     SnackBar(
                       content: Text('Tier format saved!', style: AppTypography.monoSmall),
                       duration: const Duration(seconds: 2),
-                      backgroundColor: const Color(0xFF1E1E1E),
+                      backgroundColor: AppColors.of(context).surface,
                     ),
                   );
                 },
-                icon: const Icon(Icons.check, size: 12, color: Color(0xFF0D0D0D)),
-                label: Text('SAVE FORMAT', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: AppColors.background)),
+                icon: const Icon(Icons.check, size: 12, color: AppColors.onAccent),
+                label: Text('Save format', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: AppColors.onAccent)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.sm)),
                 ),
               ),
             ],

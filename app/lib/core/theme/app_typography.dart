@@ -1,186 +1,135 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_theme.dart';
 
-/// Centralized typography design system for Newsletter Portal.
-/// Strictly enforces 2 font families (Inter & JetBrains Mono) across a 4-tier font size scale (24px, 16px, 13px, 11px).
+/// Typography: Open Sans for headers, IBM Plex Sans for body / UI chrome.
+/// Colors are applied by [AppTheme] / call sites via [AppColors.of].
 abstract class AppTypography {
-  // --- Font Family Definitions (Strictly 2 Fonts) ---
-  static String get primaryFontFamily => GoogleFonts.inter().fontFamily ?? 'Inter';
-  static String get monoFontFamily => GoogleFonts.jetBrainsMono().fontFamily ?? 'JetBrains Mono';
+  static String get headerFontFamily => GoogleFonts.openSans().fontFamily ?? 'Open Sans';
+  static String get bodyFontFamily => GoogleFonts.ibmPlexSans().fontFamily ?? 'IBM Plex Sans';
+  static String get primaryFontFamily => bodyFontFamily;
 
-  // --- Primary UI TextStyles (Inter) ---
+  // --- Headers (Open Sans) ---
 
-  /// Tier 1: Hero / Headline (24px, Bold)
-  static TextStyle displayLarge = GoogleFonts.inter(
+  static TextStyle displayLarge = GoogleFonts.openSans(
     fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
-    letterSpacing: -0.5,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.4,
   );
 
-  /// Tier 1: Hero / Headline (24px, Bold)
-  static TextStyle headlineLarge = GoogleFonts.inter(
+  static TextStyle headlineLarge = GoogleFonts.openSans(
     fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.3,
   );
 
-  /// Tier 2: Title / Subhead (16px, SemiBold)
-  static TextStyle headlineMedium = GoogleFonts.inter(
+  static TextStyle headlineMedium = GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
   );
 
-  /// Tier 2: Title / Subhead (16px, SemiBold)
-  static TextStyle titleLarge = GoogleFonts.inter(
+  static TextStyle titleLarge = GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
   );
 
-  /// Tier 2: Title / Subhead (16px, SemiBold)
-  static TextStyle titleMedium = GoogleFonts.inter(
+  static TextStyle titleMedium = GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
   );
 
-  /// Tier 3: Body / Standard (13px, Medium)
-  static TextStyle titleSmall = GoogleFonts.inter(
+  static TextStyle titleSmall = GoogleFonts.openSans(
     fontSize: 13,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
+    fontWeight: FontWeight.w600,
   );
 
-  /// Tier 2: Title / Subhead (16px, Regular)
-  static TextStyle bodyLarge = GoogleFonts.inter(
+  // --- Body / UI (IBM Plex Sans) ---
+
+  static TextStyle bodyLarge = GoogleFonts.ibmPlexSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
     height: 1.5,
   );
 
-  /// Tier 3: Body / Standard (13px, Regular)
-  static TextStyle bodyMedium = GoogleFonts.inter(
+  static TextStyle bodyMedium = GoogleFonts.ibmPlexSans(
     fontSize: 13,
     fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
     height: 1.4,
   );
 
-  /// Tier 4: Small / Micro (11px, Regular)
-  static TextStyle bodySmall = GoogleFonts.inter(
+  static TextStyle bodySmall = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontWeight: FontWeight.w400,
-    color: AppColors.textTertiary,
     height: 1.3,
   );
 
-  /// Tier 3: Body / Standard (13px, Medium)
-  static TextStyle labelLarge = GoogleFonts.inter(
+  static TextStyle labelLarge = GoogleFonts.ibmPlexSans(
     fontSize: 13,
     fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
   );
 
-  /// Tier 4: Small / Micro (11px, Medium)
-  static TextStyle labelMedium = GoogleFonts.inter(
+  static TextStyle labelMedium = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontWeight: FontWeight.w500,
-    color: AppColors.textSecondary,
   );
 
-  /// Tier 4: Small / Micro (11px, Medium)
-  static TextStyle labelSmall = GoogleFonts.inter(
+  static TextStyle labelSmall = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontWeight: FontWeight.w500,
-    color: AppColors.textTertiary,
   );
 
-
-  // --- Monospace TextStyles (JetBrains Mono) ---
-
-  /// Mono Title (16px, Regular)
-  static TextStyle monoLarge = GoogleFonts.jetBrainsMono(
+  static TextStyle monoLarge = GoogleFonts.ibmPlexSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
   );
 
-  /// Mono Standard (13px, Regular)
-  static TextStyle monoMedium = GoogleFonts.jetBrainsMono(
+  static TextStyle monoMedium = GoogleFonts.ibmPlexSans(
     fontSize: 13,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
   );
 
-  /// Mono Standard (13px, Regular)
-  static TextStyle monoStandard = GoogleFonts.jetBrainsMono(
+  static TextStyle monoStandard = GoogleFonts.ibmPlexSans(
     fontSize: 13,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
   );
 
-  /// Mono Small (11px, Regular)
-  static TextStyle monoSmall = GoogleFonts.jetBrainsMono(
+  static TextStyle monoSmall = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
   );
 
-  /// Mono Small (11px, Regular)
-  static TextStyle monoExtraSmall = GoogleFonts.jetBrainsMono(
+  static TextStyle monoExtraSmall = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
   );
 
-  /// Mono Micro (11px, Medium)
-  static TextStyle monoTiny = GoogleFonts.jetBrainsMono(
+  static TextStyle monoTiny = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontWeight: FontWeight.w500,
-    color: AppColors.textSecondary,
   );
 
-
-  // --- Editorial / Document Preview TextStyles (Inter Clean Modern) ---
-
-  /// Tier 1: Hero Document Title (24px, Bold)
-  static TextStyle serifTitle = GoogleFonts.inter(
+  static TextStyle serifTitle = GoogleFonts.openSans(
     fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.black87,
+    fontWeight: FontWeight.w700,
   );
 
-  /// Tier 2: Section Heading (16px, SemiBold)
-  static TextStyle serifHeading = GoogleFonts.inter(
+  static TextStyle serifHeading = GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: Colors.black87,
   );
 
-  /// Tier 2: Article Subheading (16px, SemiBold)
-  static TextStyle serifSubheading = GoogleFonts.inter(
+  static TextStyle serifSubheading = GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
-    color: Colors.black87,
   );
 
-  /// Tier 3: Article Body (13px, Regular)
-  static TextStyle serifBody = GoogleFonts.inter(
+  static TextStyle serifBody = GoogleFonts.ibmPlexSans(
     fontSize: 13,
     fontWeight: FontWeight.w400,
-    color: Colors.black87,
     height: 1.6,
   );
 
-  /// Tier 4: Metadata Caption (11px, Regular)
-  static TextStyle serifCaption = GoogleFonts.inter(
+  static TextStyle serifCaption = GoogleFonts.ibmPlexSans(
     fontSize: 11,
     fontStyle: FontStyle.italic,
-    color: Colors.black54,
   );
 }

@@ -55,24 +55,24 @@ class _TagPickerState extends State<TagPicker> {
         TextField(
           controller: _searchController,
           onChanged: (value) => setState(() => _searchQuery = value),
-          style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+          style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
           decoration: InputDecoration(
             hintText: 'Search tags...',
-            hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-            prefixIcon: const Icon(Icons.search, size: 16, color: AppColors.textSecondary),
+            hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+            prefixIcon: Icon(Icons.search, size: 16, color: AppColors.of(context).textSecondary),
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: AppColors.of(context).surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(color: AppColors.of(context).border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(color: AppColors.of(context).border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: AppColors.accent),
+              borderSide: BorderSide(color: AppColors.of(context).textPrimary),
             ),
             isDense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -82,9 +82,9 @@ class _TagPickerState extends State<TagPicker> {
         Container(
           constraints: const BoxConstraints(maxHeight: 300),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.of(context).surface,
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: AppColors.of(context).border),
           ),
           child: ListView.builder(
             shrinkWrap: true,
@@ -121,16 +121,16 @@ class _TagPickerState extends State<TagPicker> {
                             }
                             widget.onChanged(newSelection);
                           },
-                          activeColor: AppColors.accent,
-                          checkColor: AppColors.background,
-                          side: const BorderSide(color: AppColors.border),
+                          activeColor: AppColors.of(context).textPrimary,
+                          checkColor: Colors.white,
+                          side: BorderSide(color: AppColors.of(context).border),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
                           item.displayName,
-                          style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+                          style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
                         ),
                       ),
                     ],

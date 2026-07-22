@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsletter_portal/core/theme/app_theme.dart';
 
 class SentimentDot extends StatelessWidget {
   final double sentiment;
@@ -7,9 +8,9 @@ class SentimentDot extends StatelessWidget {
   const SentimentDot({super.key, required this.sentiment, this.size = 8.0});
 
   Color _getColor() {
-    if (sentiment < -0.15) return const Color(0xFFFF4757); // Negative
-    if (sentiment > 0.15) return const Color(0xFF00D4AA); // Positive
-    return const Color(0xFFF5A623); // Neutral
+    if (sentiment < -0.15) return AppColors.sentimentNegative;
+    if (sentiment > 0.15) return AppColors.sentimentPositive;
+    return AppColors.sentimentNeutral;
   }
 
   @override
@@ -20,13 +21,6 @@ class SentimentDot extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getColor(),
         shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: _getColor().withValues(alpha: 0.4),
-            blurRadius: 4,
-            spreadRadius: 1,
-          ),
-        ],
       ),
     );
   }
@@ -39,9 +33,9 @@ class SubjectivityDot extends StatelessWidget {
   const SubjectivityDot({super.key, required this.subjectivity, this.size = 8.0});
 
   Color _getColor() {
-    if (subjectivity > 0.15) return const Color(0xFFFF4757); // High Subjectivity / Opinionated (Red)
-    if (subjectivity < -0.15) return const Color(0xFF00D4AA); // Low Subjectivity / Factual (Green)
-    return const Color(0xFFF5A623); // Moderate (Amber)
+    if (subjectivity > 0.15) return AppColors.sentimentNegative; // Opinionated
+    if (subjectivity < -0.15) return AppColors.sentimentPositive; // Factual
+    return AppColors.sentimentNeutral; // Moderate
   }
 
   @override
@@ -52,13 +46,6 @@ class SubjectivityDot extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getColor(),
         shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: _getColor().withValues(alpha: 0.4),
-            blurRadius: 4,
-            spreadRadius: 1,
-          ),
-        ],
       ),
     );
   }
@@ -77,9 +64,9 @@ class SentimentBar extends StatelessWidget {
   });
 
   Color _getColor() {
-    if (sentiment < -0.3) return const Color(0xFFFF4757); // Negative
-    if (sentiment > 0.3) return const Color(0xFF00D4AA); // Positive
-    return const Color(0xFFF5A623); // Neutral
+    if (sentiment < -0.3) return AppColors.sentimentNegative;
+    if (sentiment > 0.3) return AppColors.sentimentPositive;
+    return AppColors.sentimentNeutral;
   }
 
   @override
@@ -91,7 +78,7 @@ class SentimentBar extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: const Color(0xFF2A2A2A),
+        color: AppColors.of(context).surfaceHover,
         borderRadius: BorderRadius.circular(height / 2),
       ),
       child: Stack(
@@ -110,7 +97,7 @@ class SentimentBar extends StatelessWidget {
             child: Container(
               width: 1,
               height: height,
-              color: const Color(0xFF141414), // Center tick
+              color: AppColors.of(context).border, // Center tick
             ),
           ),
         ],

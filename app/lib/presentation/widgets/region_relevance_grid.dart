@@ -26,19 +26,19 @@ class RegionRelevanceGrid extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: AppSpacing.sm),
           child: Text(
             'Regions',
-            style: AppTypography.titleSmall.copyWith(color: AppColors.textSecondary),
+            style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textSecondary),
           ),
         ),
         Column(
           children: _regions.map((region) {
-            return _buildSliderRow(region);
+            return _buildSliderRow(context, region);
           }).toList(),
         ),
       ],
     );
   }
 
-  Widget _buildSliderRow(String region) {
+  Widget _buildSliderRow(BuildContext context, String region) {
     final currentValue = values[region] ?? 1;
 
     return Container(
@@ -50,7 +50,7 @@ class RegionRelevanceGrid extends StatelessWidget {
             flex: 2,
             child: Text(
               region,
-              style: AppTypography.bodySmall.copyWith(color: AppColors.textPrimary),
+              style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textPrimary),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -69,10 +69,10 @@ class RegionRelevanceGrid extends StatelessWidget {
                     height: 16,
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.accent : AppColors.surfaceVariant,
+                      color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).surfaceVariant,
                       borderRadius: BorderRadius.circular(2),
                       border: Border.all(
-                        color: isSelected ? AppColors.accent : AppColors.border,
+                        color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).border,
                       ),
                     ),
                   ),
@@ -94,4 +94,3 @@ class RegionRelevanceGrid extends StatelessWidget {
     );
   }
 }
-

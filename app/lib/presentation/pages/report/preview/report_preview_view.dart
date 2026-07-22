@@ -5,6 +5,7 @@ import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
 import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/report_provider.dart';
 import 'package:newsletter_portal/domain/entities/report_preset.dart';
 import 'package:newsletter_portal/domain/entities/article.dart';
@@ -42,7 +43,7 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTopBar(context, fullDocumentText),
-            const Divider(height: 1, color: Color(0xFF2A2A2A)),
+            Divider(height: 1, color: AppColors.of(context).border),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(AppSpacing.lg),
@@ -51,14 +52,14 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
                     constraints: const BoxConstraints(maxWidth: 900),
                     padding: const EdgeInsets.all(AppSpacing.xl),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF0A0A0A),
-                      border: Border.all(color: const Color(0xFF262626)),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
+                      color: AppColors.of(context).surface,
+                      border: Border.all(color: AppColors.of(context).border),
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
+                      boxShadow: const [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.5),
-                          blurRadius: 16,
-                          spreadRadius: 4,
+                          color: Color(0x14101828),
+                          blurRadius: 24,
+                          offset: Offset(0, 8),
                         ),
                       ],
                     ),
@@ -71,16 +72,16 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
                           children: [
                             Text(
                               'DOCUMENT TYPE: INTELLIGENCE REPORT',
-                              style: AppTypography.monoTiny.copyWith(color: AppColors.accent, fontWeight: FontWeight.bold),
+                              style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'CONFIDENTIAL / FOR INTERNAL USE ONLY',
-                              style: AppTypography.monoTiny.copyWith(color: Colors.grey.shade500),
+                              style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary),
                             ),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.md),
-                        const Divider(color: Color(0xFF2A2A2A)),
+                        Divider(color: AppColors.of(context).border),
                         const SizedBox(height: AppSpacing.md),
 
                         // Continuous Plain Text Document Content
@@ -90,7 +91,7 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
                             fontFamily: _isMonospace ? 'monospace' : 'Roboto',
                             fontSize: 13,
                             height: 1.6,
-                            color: Colors.grey.shade200,
+                            color: AppColors.of(context).textPrimary,
                           ),
                         ),
                       ],
@@ -116,8 +117,9 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: AppColors.accent, size: 20),
+              AppIconButton(
+                icon: Icons.arrow_back,
+                size: 20,
                 onPressed: () {
                   ref.read(reportStateProvider.notifier).proceedToSelection();
                 },
@@ -134,12 +136,10 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Toggle Font Mode
-              IconButton(
-                icon: Icon(
-                  _isMonospace ? Icons.font_download : Icons.font_download_outlined,
-                  color: AppColors.accent,
-                  size: 20,
-                ),
+              AppIconButton(
+                icon: _isMonospace ? Icons.font_download : Icons.font_download_outlined,
+                size: 20,
+                active: _isMonospace,
                 onPressed: () {
                   setState(() {
                     _isMonospace = !_isMonospace;
@@ -152,19 +152,18 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: fullDocumentText));
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Plain text document copied to clipboard!'),
-                      duration: Duration(seconds: 2),
-                      backgroundColor: Color(0xFF1E1E1E),
+                    SnackBar(
+                      content: const Text('Plain text document copied to clipboard!'),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: AppColors.of(context).surface,
                     ),
                   );
                 },
-                icon: const Icon(Icons.copy, size: 16, color: Color(0xFF0D0D0D)),
-                label: Text('COPY PLAIN TEXT', style: AppTypography.monoSmall.copyWith(color: AppColors.background, fontWeight: FontWeight.bold)),
+                icon: const Icon(Icons.copy, size: 16, color: AppColors.onAccent),
+                label: Text('Copy text', style: AppTypography.labelMedium.copyWith(color: AppColors.onAccent, fontWeight: FontWeight.w600)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
                 ),
               ),
             ],

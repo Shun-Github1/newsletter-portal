@@ -3,6 +3,7 @@ import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
 import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/domain/entities/report_preset.dart';
 import 'package:intl/intl.dart';
 
@@ -28,15 +29,15 @@ class SidebarPresetList extends StatelessWidget {
     showMenu(
       context: context,
       position: RelativeRect.fromLTRB(position.dx, position.dy, position.dx + 1, position.dy + 1),
-      color: AppColors.surface,
+      color: AppColors.of(context).surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: AppColors.of(context).border),
       ),
       items: [
         PopupMenuItem(
           value: 'rename',
-          child: Text('Rename', style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary)),
+          child: Text('Rename', style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary)),
           onTap: () {
             // Delay to allow menu to close before showing dialog
             Future.delayed(Duration.zero, () => _showRenameDialog(context, preset));
@@ -57,20 +58,20 @@ class SidebarPresetList extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: AppColors.surface,
+          backgroundColor: AppColors.of(context).surface,
           title: Text('Rename Preset', style: AppTypography.titleMedium),
           content: TextField(
             controller: controller,
-            style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
-            decoration: const InputDecoration(
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.border)),
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.accent)),
+            style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.of(context).border)),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.of(context).textPrimary)),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel', style: AppTypography.labelLarge.copyWith(color: AppColors.textSecondary)),
+              child: Text('Cancel', style: AppTypography.labelLarge.copyWith(color: AppColors.of(context).textSecondary)),
             ),
             TextButton(
               onPressed: () {
@@ -79,7 +80,7 @@ class SidebarPresetList extends StatelessWidget {
                 }
                 Navigator.pop(context);
               },
-              child: Text('Save', style: AppTypography.labelLarge.copyWith(color: AppColors.accent)),
+              child: Text('Save', style: AppTypography.labelLarge.copyWith(color: AppColors.of(context).textPrimary, fontWeight: FontWeight.w600)),
             ),
           ],
         );
@@ -103,13 +104,12 @@ class SidebarPresetList extends StatelessWidget {
                   letterSpacing: 1.1,
                 ),
               ),
-              InkWell(
-                onTap: onAdd,
-                borderRadius: BorderRadius.circular(4),
-                child: const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Icon(Icons.add, size: 16, color: AppColors.textPrimary),
-                ),
+              AppIconButton(
+                icon: Icons.add,
+                size: 16,
+                onPressed: onAdd,
+                padding: const EdgeInsets.all(4),
+                tooltip: 'Add preset',
               ),
             ],
           ),
@@ -137,8 +137,8 @@ class SidebarPresetList extends StatelessWidget {
                         Text(
                           preset.name,
                           style: AppTypography.bodyMedium.copyWith(
-                            color: isActive ? AppColors.accent : AppColors.textPrimary,
-                            fontWeight: FontWeight.w500,
+                            color: AppColors.of(context).textPrimary,
+                            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

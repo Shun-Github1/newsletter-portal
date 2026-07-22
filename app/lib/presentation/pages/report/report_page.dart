@@ -11,6 +11,7 @@ import 'package:newsletter_portal/presentation/providers/report_provider.dart';
 import 'package:newsletter_portal/presentation/providers/preset_provider.dart';
 import 'package:newsletter_portal/domain/entities/report_preset.dart';
 
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'customization/report_customization_view.dart';
 import 'selection/article_selection_view.dart';
 import 'preview/report_preview_view.dart';
@@ -42,7 +43,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: AppColors.of(context).background,
       body: Column(
         children: [
           // Compact Top Bar
@@ -115,8 +116,9 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     ReportState reportState,
   ) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF141414),
+      decoration: BoxDecoration(
+        color: AppColors.of(context).sidebar,
+        border: Border(right: BorderSide(color: AppColors.of(context).border)),
       ),
       child: SidebarPresetList(
         presets: presetState,
@@ -172,9 +174,9 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     final isLoading = reportState.isLoading;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF141414),
-        border: Border(left: BorderSide(color: Color(0xFF2A2A2A))),
+      decoration: BoxDecoration(
+        color: AppColors.of(context).sidebar,
+        border: Border(left: BorderSide(color: AppColors.of(context).border)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -189,38 +191,47 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'LIVE SECTION PREVIEW',
-                      style: AppTypography.monoTiny.copyWith(
-                        letterSpacing: 1.1,
-                        color: AppColors.accent,
-                        fontWeight: FontWeight.bold,
+                      'Live section preview',
+                      style: AppTypography.labelLarge.copyWith(
+                        color: AppColors.of(context).textPrimary,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       'Real-time articles per section',
-                      style: AppTypography.monoTiny.copyWith(color: Colors.grey),
+                      style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textTertiary),
                     ),
                   ],
                 ),
-                IconButton(
-                  icon: isLoading
-                      ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent))
-                      : const Icon(Icons.refresh, size: 16, color: AppColors.accent),
-                  onPressed: () {
-                    ref.read(reportStateProvider.notifier).refreshPreview();
-                  },
-                ),
+                if (isLoading)
+                  const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent),
+                    ),
+                  )
+                else
+                  AppIconButton(
+                    icon: Icons.refresh,
+                    size: 16,
+                    onPressed: () {
+                      ref.read(reportStateProvider.notifier).refreshPreview();
+                    },
+                    tooltip: 'Refresh preview',
+                  ),
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFF2A2A2A)),
+          Divider(height: 1, color: AppColors.of(context).border),
 
           // Section-by-Section Cards List
           Expanded(
             child: sections.isEmpty
                 ? Center(
-                    child: Text('No sections configured', style: AppTypography.monoTiny.copyWith(color: Colors.grey)),
+                    child: Text('No sections configured', style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textTertiary)),
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.all(AppSpacing.sm),
@@ -234,9 +245,9 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                         margin: const EdgeInsets.only(bottom: AppSpacing.md),
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0D0D0D),
-                          border: Border.all(color: const Color(0xFF262626)),
-                          borderRadius: BorderRadius.circular(6),
+                          color: AppColors.of(context).surface,
+                          border: Border.all(color: AppColors.of(context).border),
+                          borderRadius: BorderRadius.circular(AppRadius.md),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,7 +259,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                                 Expanded(
                                   child: Text(
                                     '${idx + 1}. ${section.title.toUpperCase()}',
-                                    style: AppTypography.monoSmall.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                                    style: AppTypography.monoSmall.copyWith(fontWeight: FontWeight.bold, color: AppColors.of(context).textPrimary),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -256,13 +267,13 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: matchedArticles.isNotEmpty ? const Color(0xFF00382B) : const Color(0xFF380000),
-                                    borderRadius: BorderRadius.circular(4),
+                                    color: matchedArticles.isNotEmpty ? AppColors.of(context).surfaceHover : Color(0xFFFDECEA),
+                                    borderRadius: BorderRadius.circular(AppRadius.sm),
                                   ),
                                   child: Text(
                                     '${matchedArticles.length} MATCHED',
                                     style: AppTypography.monoTiny.copyWith(
-                                      color: matchedArticles.isNotEmpty ? AppColors.accent : Colors.redAccent,
+                                      color: matchedArticles.isNotEmpty ? AppColors.of(context).textSecondary : AppColors.error,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -272,10 +283,10 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                             const SizedBox(height: 4),
                             Text(
                               'Tags: ${section.tags.isEmpty ? "ALL" : section.tags.join(", ")} | Cutoff: ${section.sentimentThreshold.toStringAsFixed(2)}',
-                              style: AppTypography.monoTiny.copyWith(color: Colors.grey.shade500),
+                              style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary),
                             ),
                             const SizedBox(height: 8),
-                            const Divider(height: 1, color: Color(0xFF262626)),
+                            Divider(height: 1, color: AppColors.of(context).border),
                             const SizedBox(height: 8),
 
                             // Preview Items List
@@ -284,7 +295,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: Text(
                                   'No articles match section filters.',
-                                  style: AppTypography.monoTiny.copyWith(color: Colors.grey.shade600),
+                                  style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary),
                                 ),
                               )
                             else
@@ -314,12 +325,12 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                                   margin: const EdgeInsets.only(bottom: 6),
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF141414),
-                                    borderRadius: BorderRadius.circular(4),
+                                    color: AppColors.of(context).surfaceVariant,
+                                    borderRadius: BorderRadius.circular(AppRadius.sm),
                                   ),
                                   child: Text(
                                     renderedItem,
-                                    style: AppTypography.monoTiny.copyWith(color: Colors.grey.shade300, fontSize: 10),
+                                    style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary, fontSize: 10),
                                     maxLines: 4,
                                     overflow: TextOverflow.ellipsis,
                                   ),

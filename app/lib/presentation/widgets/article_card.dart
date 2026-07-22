@@ -37,9 +37,9 @@ class ArticleCard extends StatelessWidget {
               Checkbox(
                 value: isSelected,
                 onChanged: (val) => onToggle?.call(),
-                activeColor: AppColors.accent,
-                checkColor: AppColors.background,
-                side: const BorderSide(color: AppColors.border),
+                activeColor: AppColors.of(context).textPrimary,
+                checkColor: Colors.white,
+                side: BorderSide(color: AppColors.of(context).border),
               ),
               const SizedBox(width: AppSpacing.sm),
             ],
@@ -78,7 +78,7 @@ class ArticleCard extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xs),
                     Text(
                       article.synopsis!.trim(),
-                      style: AppTypography.bodySmall.copyWith(color: Colors.grey.shade400, height: 1.4),
+                      style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textSecondary, height: 1.4),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -89,9 +89,9 @@ class ArticleCard extends StatelessWidget {
                     runSpacing: AppSpacing.xs,
                     children: [
                       if (article.sector != null)
-                        _buildChip(article.sector!.toString().split('.').last),
+                        _buildChip(context, article.sector!.toString().split('.').last),
                       if (article.region != null)
-                        _buildChip(article.region!.toString().split('.').last),
+                        _buildChip(context, article.region!.toString().split('.').last),
                     ],
                   ),
                 ],
@@ -103,13 +103,13 @@ class ArticleCard extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(String label) {
+  Widget _buildChip(BuildContext context, String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        color: AppColors.of(context).surfaceVariant,
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Text(
         label.toUpperCase(),

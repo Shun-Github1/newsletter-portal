@@ -84,15 +84,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: AppColors.of(context).sidebar,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            colors: [Color(0xFF142420), Color(0xFF0D0D0D)],
-            radius: 1.5,
-            center: Alignment.center,
-          ),
-        ),
+        color: AppColors.of(context).sidebar,
         child: Center(
           child: FadeTransition(
             opacity: _fadeAnimation,
@@ -103,20 +97,34 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'NEWSLETTER',
-                      style: AppTypography.monoLarge.copyWith(
-                        color: AppColors.accent,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 4,
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: const BoxDecoration(
+                            color: AppColors.accent,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        Text(
+                          'Newsletter',
+                          style: AppTypography.headlineLarge.copyWith(
+                            color: AppColors.of(context).textPrimary,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Create an Account',
                       style: AppTypography.bodyMedium,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 28),
                     _buildTextField(
                       controller: _emailController,
                       hint: 'Email',
@@ -154,23 +162,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                       height: 44,
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleRegister,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.accent,
-                          foregroundColor: AppColors.background,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
                         child: _isLoading
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.background),
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                 ),
                               )
-                            : Text('Register', style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.bold, color: AppColors.background)),
+                            : Text('Create account', style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.w600, color: AppColors.onAccent)),
                       ),
                     ),
                     if (_errorMessage != null) ...[
@@ -186,7 +187,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                       onPressed: () => context.go('/login'),
                       child: Text(
                         "Already have an account? Login",
-                        style: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
+                        style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
                       ),
                     ),
                   ],
@@ -208,24 +209,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
     return TextField(
       controller: controller,
       obscureText: obscure,
-      style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+      style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-        prefixIcon: Icon(icon, color: AppColors.textSecondary, size: 20),
+        hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+        prefixIcon: Icon(icon, color: AppColors.of(context).textTertiary, size: 20),
         filled: true,
-        fillColor: AppColors.surfaceVariant,
+        fillColor: AppColors.of(context).surfaceVariant,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: AppColors.of(context).border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: AppColors.of(context).border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColors.accent),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: AppColors.of(context).textPrimary, width: 1.5),
         ),
       ),
     );

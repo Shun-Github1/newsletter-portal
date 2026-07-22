@@ -5,6 +5,7 @@ import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
 import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
 import 'package:newsletter_portal/presentation/widgets/article_card.dart';
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/report_provider.dart';
 
 class ArticleSelectionView extends ConsumerWidget {
@@ -25,7 +26,7 @@ class ArticleSelectionView extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTopBar(context, ref, selectedCount),
-            const Divider(height: 1, color: Color(0xFF2A2A2A)),
+            Divider(height: 1, color: AppColors.of(context).border),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(AppSpacing.md),
@@ -67,8 +68,9 @@ class ArticleSelectionView extends ConsumerWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: AppColors.accent, size: 20),
+              AppIconButton(
+                icon: Icons.arrow_back,
+                size: 20,
                 onPressed: () {
                   ref.read(reportStateProvider.notifier).goBack();
                 },
@@ -87,13 +89,12 @@ class ArticleSelectionView extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF141414),
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: AppColors.accent.withValues(alpha: 0.4)),
+                  color: AppColors.of(context).surfaceHover,
+                  borderRadius: BorderRadius.circular(AppRadius.full),
                 ),
                 child: Text(
                   '$selectedCount Selected',
-                  style: AppTypography.monoSmall.copyWith(color: AppColors.accent, fontWeight: FontWeight.bold),
+                  style: AppTypography.labelSmall.copyWith(color: AppColors.of(context).textPrimary, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
@@ -102,12 +103,10 @@ class ArticleSelectionView extends ConsumerWidget {
                   ref.read(reportStateProvider.notifier).proceedToPreview();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
-                  foregroundColor: const Color(0xFF0D0D0D),
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
                 ),
-                child: Text('Preview Report →', style: AppTypography.monoSmall.copyWith(fontWeight: FontWeight.bold, color: AppColors.background)),
+                child: Text('Preview report', style: AppTypography.labelMedium.copyWith(fontWeight: FontWeight.w600, color: AppColors.onAccent)),
               ),
             ],
           ),
@@ -144,8 +143,8 @@ class _SectionPanelState extends State<_SectionPanel> {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        border: Border.all(color: const Color(0xFF2A2A2A)),
+        color: AppColors.of(context).surface,
+        border: Border.all(color: AppColors.of(context).border),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -166,16 +165,15 @@ class _SectionPanelState extends State<_SectionPanel> {
                     '${widget.sectionName} ($sectionSelectedCount/${widget.articles.length} selected)',
                     style: AppTypography.titleMedium,
                   ),
-                  Icon(
+                  AppIcon(
                     _isExpanded ? Icons.expand_less : Icons.expand_more,
-                    color: Colors.grey,
                   ),
                 ],
               ),
             ),
           ),
           if (_isExpanded) ...[
-            const Divider(height: 1, color: Color(0xFF2A2A2A)),
+            Divider(height: 1, color: AppColors.of(context).border),
             Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Column(
@@ -190,8 +188,8 @@ class _SectionPanelState extends State<_SectionPanel> {
                           Checkbox(
                             value: isSelected,
                             onChanged: (_) => widget.onToggleArticle(article.id),
-                            activeColor: AppColors.accent,
-                            checkColor: AppColors.background,
+                            activeColor: AppColors.of(context).textPrimary,
+                            checkColor: AppColors.onAccent,
                           ),
                           Expanded(
                             child: ArticleCard(article: article),

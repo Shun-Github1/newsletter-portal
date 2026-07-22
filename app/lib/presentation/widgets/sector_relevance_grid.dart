@@ -41,37 +41,37 @@ class SectorRelevanceGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('Hard Sectors'),
-        _buildSectorList(_hardSectors),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          child: Divider(color: AppColors.border),
+        _buildSectionTitle(context, 'Hard Sectors'),
+        _buildSectorList(context, _hardSectors),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: Divider(color: AppColors.of(context).border),
         ),
-        _buildSectionTitle('Soft Sectors'),
-        _buildSectorList(_softSectors),
+        _buildSectionTitle(context, 'Soft Sectors'),
+        _buildSectorList(context, _softSectors),
       ],
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Text(
         title,
-        style: AppTypography.titleSmall.copyWith(color: AppColors.textSecondary),
+        style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textSecondary),
       ),
     );
   }
 
-  Widget _buildSectorList(Map<int, String> sectors) {
+  Widget _buildSectorList(BuildContext context, Map<int, String> sectors) {
     return Column(
       children: sectors.entries.map((e) {
-        return _buildSliderRow(e.key, e.value);
+        return _buildSliderRow(context, e.key, e.value);
       }).toList(),
     );
   }
 
-  Widget _buildSliderRow(int id, String name) {
+  Widget _buildSliderRow(BuildContext context, int id, String name) {
     final currentValue = values[id] ?? 1;
 
     return Container(
@@ -83,7 +83,7 @@ class SectorRelevanceGrid extends StatelessWidget {
             flex: 2,
             child: Text(
               name,
-              style: AppTypography.bodySmall.copyWith(color: AppColors.textPrimary),
+              style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textPrimary),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -102,10 +102,10 @@ class SectorRelevanceGrid extends StatelessWidget {
                     height: 16,
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.accent : AppColors.surfaceVariant,
+                      color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).surfaceVariant,
                       borderRadius: BorderRadius.circular(2),
                       border: Border.all(
-                        color: isSelected ? AppColors.accent : AppColors.border,
+                        color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).border,
                       ),
                     ),
                   ),
@@ -127,4 +127,3 @@ class SectorRelevanceGrid extends StatelessWidget {
     );
   }
 }
-

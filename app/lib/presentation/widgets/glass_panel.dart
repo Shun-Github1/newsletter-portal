@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
@@ -27,28 +26,28 @@ class GlassPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final panel = ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: AnimatedContainer(
-          duration: AppAnimation.normal,
-          width: width,
-          height: height,
-          padding: padding ?? const EdgeInsets.all(AppSpacing.lg),
-          decoration: BoxDecoration(
-            color: backgroundColor ?? AppColors.surface.withValues(alpha: 0.85),
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: showBorder
-                ? Border.all(
-                    color: AppColors.border.withValues(alpha: 0.6),
-                    width: 1,
-                  )
-                : null,
+    final panel = AnimatedContainer(
+      duration: AppAnimation.normal,
+      width: width,
+      height: height,
+      padding: padding ?? const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        color: backgroundColor ?? AppColors.of(context).surface,
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: showBorder
+            ? Border.all(color: AppColors.of(context).border, width: 1)
+            : null,
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0x40000000)
+                : const Color(0x0A101828),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
           ),
-          child: child,
-        ),
+        ],
       ),
+      child: child,
     );
 
     if (onTap != null) {
@@ -95,16 +94,14 @@ class _GlassPanelHoverState extends State<GlassPanelHover> {
   @override
   Widget build(BuildContext context) {
     final borderColor = widget.isSelected
-        ? AppColors.accent.withValues(alpha: 0.6)
-        : _isHovered
-            ? AppColors.borderLight
-            : AppColors.border.withValues(alpha: 0.4);
+        ? AppColors.of(context).textPrimary
+        : AppColors.of(context).border;
 
     final bgColor = widget.isSelected
-        ? AppColors.accent.withValues(alpha: 0.08)
+        ? AppColors.of(context).surfaceHover
         : _isHovered
-            ? AppColors.surfaceVariant.withValues(alpha: 0.9)
-            : AppColors.surface.withValues(alpha: 0.85);
+            ? AppColors.of(context).surfaceVariant
+            : AppColors.of(context).surface;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,

@@ -25,9 +25,9 @@ class _TerminalRowState extends State<TerminalRow> {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = _isHovered 
-        ? AppColors.surfaceVariant 
-        : (widget.isEven ? const Color(0xFF141414) : const Color(0xFF161616));
+    final bgColor = _isHovered
+        ? AppColors.of(context).surfaceVariant
+        : (widget.isEven ? AppColors.of(context).background : AppColors.of(context).sidebar);
 
     final timestamp = DateFormat('HH:mm:ss').format(widget.article.date);
 
@@ -62,7 +62,7 @@ class _TerminalRowState extends State<TerminalRow> {
               child: Text(
                 widget.article.title,
                 style: AppTypography.monoSmall.copyWith(
-                  color: AppColors.textPrimary,
+                  color: AppColors.of(context).textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
                 maxLines: 1,

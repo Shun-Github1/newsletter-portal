@@ -10,26 +10,25 @@ class ReportShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: AppColors.of(context).background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0A0A0A),
+        backgroundColor: AppColors.of(context).sidebar,
         elevation: 0,
-        title: Text('NEWSLETTER REPORT', style: AppTypography.monoMedium.copyWith(color: AppColors.accent, letterSpacing: 2)),
+        title: Text('Report', style: AppTypography.headlineMedium),
         actions: [
           TextButton(
             onPressed: () => context.go('/terminal'),
-            child: Text('Terminal', style: AppTypography.monoSmall.copyWith(color: AppColors.textSecondary)),
+            child: Text('Feed', style: AppTypography.labelMedium),
           ),
           const SizedBox(width: AppSpacing.md),
         ],
       ),
       body: Center(
         child: Text(
-          'REPORT VIEW COMING SOON',
-          style: AppTypography.monoMedium.copyWith(color: AppColors.textSecondary),
+          'Report view coming soon',
+          style: AppTypography.bodyMedium,
         ),
       ),
     );
   }
 }
-

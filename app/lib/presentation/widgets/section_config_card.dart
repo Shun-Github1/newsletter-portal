@@ -3,6 +3,7 @@ import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
 import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/domain/entities/report_section.dart';
 import 'package:newsletter_portal/presentation/widgets/sector_relevance_grid.dart';
 import 'package:newsletter_portal/presentation/widgets/region_relevance_grid.dart';
@@ -99,9 +100,8 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Row(
                 children: [
-                  Icon(
+                  AppIcon(
                     _isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_right,
-                    color: AppColors.textSecondary,
                     size: 20,
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -130,11 +130,12 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                     ),
                     const SizedBox(width: AppSpacing.md),
                   ],
-                  IconButton(
-                    icon: const Icon(Icons.close, size: 16, color: AppColors.textSecondary),
+                  AppIconButton(
+                    icon: Icons.close,
+                    size: 16,
                     onPressed: widget.onDelete,
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
+                    tooltip: 'Delete section',
                   ),
                 ],
               ),
@@ -153,7 +154,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Divider(color: AppColors.border),
+                  Divider(color: AppColors.of(context).border),
                   const SizedBox(height: AppSpacing.md),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +186,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 'Tags',
-                                style: AppTypography.titleSmall.copyWith(color: AppColors.textSecondary),
+                                style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textSecondary),
                               ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
@@ -200,7 +201,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                     ],
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  const Divider(color: AppColors.border),
+                  Divider(color: AppColors.of(context).border),
                   const SizedBox(height: AppSpacing.sm),
                   Row(
                     children: [
@@ -211,7 +212,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                         child: TextField(
                           controller: _minController,
                           keyboardType: TextInputType.number,
-                          style: AppTypography.bodySmall.copyWith(color: AppColors.textPrimary),
+                          style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textPrimary),
                           decoration: InputDecoration(
                             labelText: 'Min',
                             labelStyle: AppTypography.monoTiny,
@@ -226,7 +227,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                         child: TextField(
                           controller: _maxController,
                           keyboardType: TextInputType.number,
-                          style: AppTypography.bodySmall.copyWith(color: AppColors.textPrimary),
+                          style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textPrimary),
                           decoration: InputDecoration(
                             labelText: 'Max',
                             labelStyle: AppTypography.monoTiny,
@@ -242,14 +243,14 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                           value: widget.section.sentimentThreshold.clamp(0.0, 1.0),
                           min: 0.0,
                           max: 1.0,
-                          activeColor: AppColors.accent,
-                          inactiveColor: AppColors.border,
+                          activeColor: AppColors.of(context).textPrimary,
+                          inactiveColor: AppColors.of(context).border,
                           onChanged: (val) => _updateSection(sentimentThreshold: val),
                         ),
                       ),
                       Text(
                         widget.section.sentimentThreshold.clamp(0.0, 1.0).toStringAsFixed(2),
-                        style: AppTypography.monoSmall.copyWith(color: AppColors.textPrimary),
+                        style: AppTypography.monoSmall.copyWith(color: AppColors.of(context).textPrimary),
                       ),
                     ],
                   ),
@@ -275,16 +276,16 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                               SnackBar(
                                 content: Text('Section reset to default parameters', style: AppTypography.monoSmall),
                                 duration: const Duration(seconds: 2),
-                                backgroundColor: const Color(0xFF1E1E1E),
+                                backgroundColor: AppColors.of(context).surface,
                               ),
                             );
                           },
-                          icon: const Icon(Icons.refresh, size: 14, color: Colors.orangeAccent),
-                          label: Text('RESET SECTION', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: Colors.orangeAccent)),
+                          icon: Icon(Icons.refresh, size: 14, color: AppColors.of(context).textSecondary),
+                          label: Text('Reset', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: AppColors.of(context).textSecondary)),
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.orangeAccent),
+                            side: BorderSide(color: AppColors.of(context).border),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.sm)),
                           ),
                         ),
                         const SizedBox(width: AppSpacing.sm),
@@ -299,16 +300,15 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                               SnackBar(
                                 content: Text('Section "${widget.section.title}" saved!', style: AppTypography.monoSmall),
                                 duration: const Duration(seconds: 2),
-                                backgroundColor: const Color(0xFF1E1E1E),
+                                backgroundColor: AppColors.of(context).surface,
                               ),
                             );
                           },
-                          icon: const Icon(Icons.check, size: 14, color: Color(0xFF0D0D0D)),
-                          label: Text('SAVE SECTION', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: AppColors.background)),
+                          icon: const Icon(Icons.check, size: 14, color: AppColors.onAccent),
+                          label: Text('Save section', style: AppTypography.monoTiny.copyWith(fontWeight: FontWeight.bold, color: AppColors.onAccent)),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.accent,
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.sm)),
                           ),
                         ),
                       ],

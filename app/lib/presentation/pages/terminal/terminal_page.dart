@@ -10,6 +10,7 @@ import 'package:newsletter_portal/presentation/widgets/terminal_row.dart';
 import 'package:newsletter_portal/presentation/widgets/sector_relevance_grid.dart';
 import 'package:newsletter_portal/presentation/widgets/region_relevance_grid.dart';
 import 'package:newsletter_portal/presentation/widgets/tag_picker.dart';
+import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/terminal_provider.dart';
 import 'package:newsletter_portal/presentation/providers/preset_provider.dart';
 import 'package:newsletter_portal/presentation/providers/auth_provider.dart';
@@ -76,14 +77,14 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF141414),
+          backgroundColor: AppColors.of(context).surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: const BorderSide(color: Color(0xFF2A2A2A)),
+            side: BorderSide(color: AppColors.of(context).border),
           ),
           title: Text(
             'Save Filter Preset',
-            style: AppTypography.monoLarge,
+            style: AppTypography.titleLarge,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -91,17 +92,17 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
             children: [
               Text(
                 'Enter a name for this preset filter configuration:',
-                style: AppTypography.monoSmall,
+                style: AppTypography.bodySmall,
               ),
               const SizedBox(height: AppSpacing.sm),
               TextField(
                 controller: controller,
-                style: AppTypography.monoStandard,
-                decoration: const InputDecoration(
+                style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
+                decoration: InputDecoration(
                   filled: true,
-                  fillColor: Color(0xFF0E0E0E),
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF2A2A2A))),
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.accent)),
+                  fillColor: AppColors.of(context).surfaceVariant,
+                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.of(context).border), borderRadius: const BorderRadius.all(Radius.circular(AppRadius.md))),
+                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.of(context).textPrimary, width: 1.5), borderRadius: const BorderRadius.all(Radius.circular(AppRadius.md))),
                 ),
               ),
             ],
@@ -109,13 +110,9 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('CANCEL', style: AppTypography.monoSmall.copyWith(color: AppColors.textSecondary)),
+              child: Text('Cancel', style: AppTypography.labelMedium),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                foregroundColor: const Color(0xFF0D0D0D),
-              ),
               onPressed: () {
                 final name = controller.text.trim();
                 if (name.isNotEmpty) {
@@ -139,7 +136,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                 }
                 Navigator.pop(context);
               },
-              child: Text('SAVE', style: AppTypography.monoSmall.copyWith(fontWeight: FontWeight.bold)),
+              child: Text('Save', style: AppTypography.labelMedium.copyWith(fontWeight: FontWeight.w600, color: AppColors.onAccent)),
             ),
           ],
         );
@@ -154,7 +151,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
     _syncFilters(state);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: AppColors.of(context).background,
       body: Column(
         children: [
           // Unified Compact Top Bar
@@ -225,7 +222,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
 
   Widget _buildPresetsSidebar(List<ReportPreset> presets) {
     return Container(
-      color: const Color(0xFF0A0A0A),
+      color: AppColors.of(context).sidebar,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -235,24 +232,24 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'PRESETS',
-                  style: AppTypography.monoExtraSmall.copyWith(
+                  'Presets',
+                  style: AppTypography.labelMedium.copyWith(
                     fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
                 InkWell(
                   onTap: () => _showSavePresetDialog(context),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
                   child: const Padding(
                     padding: EdgeInsets.all(4.0),
-                    child: Icon(Icons.add, size: 14, color: AppColors.accent),
+                    child: AppIcon(Icons.add, size: 16),
                   ),
                 ),
               ],
             ),
           ),
-          const Divider(color: Color(0xFF1A1A1A), height: 1),
+          Divider(color: AppColors.of(context).border, height: 1),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 4),
@@ -265,17 +262,17 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    decoration: const BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Color(0xFF141414))),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: AppColors.of(context).borderLight)),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.bookmark_outline, size: 12, color: AppColors.accent),
+                        Icon(Icons.bookmark_outline, size: 14, color: AppColors.of(context).textTertiary),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             preset.name,
-                            style: AppTypography.monoExtraSmall.copyWith(color: AppColors.textPrimary),
+                            style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textPrimary),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -294,27 +291,27 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
 
   Widget _buildFeedHeader() {
     return Container(
-      height: 24,
-      decoration: const BoxDecoration(
-        color: Color(0xFF141414),
-        border: Border(bottom: BorderSide(color: Color(0xFF2A2A2A))),
+      height: 36,
+      decoration: BoxDecoration(
+        color: AppColors.of(context).sidebar,
+        border: Border(bottom: BorderSide(color: AppColors.of(context).border)),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
-          SizedBox(width: 70, child: Text('TIME', style: AppTypography.monoTiny)),
+          SizedBox(width: 52, child: Text('Time', style: AppTypography.labelSmall)),
           const SizedBox(width: AppSpacing.sm),
-          SizedBox(width: 80, child: Text('REGION', style: AppTypography.monoTiny)),
+          SizedBox(width: 80, child: Text('Region', style: AppTypography.labelSmall)),
           const SizedBox(width: AppSpacing.sm),
-          SizedBox(width: 100, child: Text('SECTOR', style: AppTypography.monoTiny)),
+          SizedBox(width: 100, child: Text('Sector', style: AppTypography.labelSmall)),
           const SizedBox(width: AppSpacing.sm),
-          Expanded(child: Text('HEADLINE', style: AppTypography.monoTiny)),
+          Expanded(child: Text('Headline', style: AppTypography.labelSmall)),
           const SizedBox(width: AppSpacing.md),
-          SizedBox(width: 36, child: Center(child: Text('SENT', style: AppTypography.monoTiny))),
+          SizedBox(width: 36, child: Center(child: Text('Sent', style: AppTypography.labelSmall))),
           const SizedBox(width: AppSpacing.sm),
-          SizedBox(width: 36, child: Center(child: Text('SUBJ', style: AppTypography.monoTiny))),
+          SizedBox(width: 36, child: Center(child: Text('Subj', style: AppTypography.labelSmall))),
           const SizedBox(width: AppSpacing.md),
-          SizedBox(width: 45, child: Text('SRC', style: AppTypography.monoTiny, textAlign: TextAlign.right)),
+          SizedBox(width: 40, child: Text('Src', style: AppTypography.labelSmall, textAlign: TextAlign.right)),
         ],
       ),
     );
@@ -322,16 +319,16 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
 
   Widget _buildFeedList(TerminalState state) {
     if (state.articles.isEmpty && state.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: AppColors.accent),
+      return Center(
+        child: CircularProgressIndicator(color: AppColors.of(context).textSecondary),
       );
     }
 
     if (state.articles.isEmpty && !state.isLoading) {
       return Center(
         child: Text(
-          '> No articles match current filters',
-          style: AppTypography.monoMedium.copyWith(color: AppColors.textSecondary),
+          'No articles match current filters',
+          style: AppTypography.bodyMedium,
         ),
       );
     }
@@ -345,10 +342,10 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
             padding: const EdgeInsets.all(AppSpacing.md),
             child: Center(
               child: state.isLoading
-                  ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: AppColors.accent, strokeWidth: 2))
+                  ? SizedBox(width: 24, height: 36, child: CircularProgressIndicator(color: AppColors.of(context).textSecondary, strokeWidth: 2))
                   : TextButton(
                       onPressed: () => ref.read(terminalFeedProvider.notifier).loadMore(),
-                      child: Text('LOAD MORE', style: AppTypography.monoSmall.copyWith(color: AppColors.accent)),
+                      child: Text('Load more', style: AppTypography.labelMedium.copyWith(color: AppColors.of(context).textSecondary)),
                     ),
             ),
           );
@@ -357,7 +354,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
         final article = state.articles[index];
         final isEven = index % 2 == 0;
         return Container(
-          color: isEven ? Colors.transparent : const Color(0xFF141414).withValues(alpha: 0.5),
+          color: Colors.transparent,
           child: TerminalRow(article: article, isEven: isEven),
         );
       },
@@ -380,34 +377,34 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
     Color sentColor;
     String sentText;
     if (avgSentiment > 0.15) {
-      sentColor = const Color(0xFF00D4AA); // Green (Positive)
+      sentColor = AppColors.sentimentPositive;
       sentText = 'POS (${avgSentiment >= 0 ? '+' : ''}${avgSentiment.toStringAsFixed(2)})';
     } else if (avgSentiment < -0.15) {
-      sentColor = const Color(0xFFFF4757); // Red (Negative)
+      sentColor = AppColors.sentimentNegative;
       sentText = 'NEG (${avgSentiment.toStringAsFixed(2)})';
     } else {
-      sentColor = const Color(0xFFF5A623); // Amber (Neutral)
+      sentColor = AppColors.sentimentNeutral;
       sentText = 'NEUT (${avgSentiment >= 0 ? '+' : ''}${avgSentiment.toStringAsFixed(2)})';
     }
 
     Color subjColor;
     String subjText;
     if (avgSubjectivity > 0.15) {
-      subjColor = const Color(0xFFFF4757); // Red (High Subjectivity / Opinionated)
+      subjColor = AppColors.sentimentNegative;
       subjText = 'HIGH (${avgSubjectivity >= 0 ? '+' : ''}${avgSubjectivity.toStringAsFixed(2)})';
     } else if (avgSubjectivity < -0.15) {
-      subjColor = const Color(0xFF00D4AA); // Green (Low Subjectivity / Factual)
+      subjColor = AppColors.sentimentPositive;
       subjText = 'LOW (${avgSubjectivity >= 0 ? '+' : ''}${avgSubjectivity.toStringAsFixed(2)})';
     } else {
-      subjColor = const Color(0xFFF5A623); // Amber (Moderate)
+      subjColor = AppColors.sentimentNeutral;
       subjText = 'MOD (${avgSubjectivity >= 0 ? '+' : ''}${avgSubjectivity.toStringAsFixed(2)})';
     }
 
     return Container(
-      height: 20,
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A0A0A),
-        border: Border(top: BorderSide(color: Color(0xFF1A1A1A))),
+      height: 28,
+      decoration: BoxDecoration(
+        color: AppColors.of(context).sidebar,
+        border: Border(top: BorderSide(color: AppColors.of(context).border)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: SingleChildScrollView(
@@ -427,8 +424,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'AVG SENTIMENT: $sentText',
-                  style: AppTypography.monoTiny.copyWith(color: AppColors.textPrimary, letterSpacing: 0.5),
+                  'Avg sentiment: $sentText',
+                  style: AppTypography.labelSmall.copyWith(color: AppColors.of(context).textSecondary),
                 ),
               ],
             ),
@@ -447,8 +444,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'AVG SUBJECTIVITY: $subjText',
-                  style: AppTypography.monoTiny.copyWith(color: AppColors.textPrimary, letterSpacing: 0.5),
+                  'Avg subjectivity: $subjText',
+                  style: AppTypography.labelSmall.copyWith(color: AppColors.of(context).textSecondary),
                 ),
               ],
             ),
@@ -463,7 +460,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
 
             // Timestamp
             Text(
-              'LAST REFRESH: ${DateTime.now().toString().split('.').first}',
+              'Last refresh: ${DateTime.now().toString().split('.').first}',
               style: AppTypography.monoTiny,
             ),
           ],
@@ -476,7 +473,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
     int activeFiltersCount = state.sectorWeights.length + state.regionWeights.length + state.selectedTags.length;
 
     return Container(
-      color: const Color(0xFF0E0E0E),
+      color: AppColors.of(context).sidebar,
       child: Column(
         children: [
           // Filter Panel Header (Title + Active Count + Reset)
@@ -485,9 +482,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
             child: Row(
               children: [
                 Text(
-                  'FILTERS',
-                  style: AppTypography.monoSmall.copyWith(
-                    letterSpacing: 2.0,
+                  'Filters',
+                  style: AppTypography.labelLarge.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -496,13 +492,12 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
-                      color: AppColors.accent.withValues(alpha: 0.15),
-                      border: Border.all(color: AppColors.accent.withValues(alpha: 0.5)),
-                      borderRadius: BorderRadius.circular(4),
+                      color: AppColors.of(context).surfaceHover,
+                      borderRadius: BorderRadius.circular(AppRadius.full),
                     ),
                     child: Text(
                       '$activeFiltersCount',
-                      style: AppTypography.monoTiny.copyWith(color: AppColors.accent, fontWeight: FontWeight.bold),
+                      style: AppTypography.labelSmall.copyWith(color: AppColors.of(context).textPrimary, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -515,12 +510,12 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                       _tempSelectedTags.clear();
                     });
                   },
-                  child: Text('RESET', style: AppTypography.monoTiny.copyWith(color: AppColors.accent)),
+                  child: Text('Reset', style: AppTypography.labelSmall.copyWith(color: AppColors.of(context).textSecondary)),
                 ),
               ],
             ),
           ),
-          const Divider(color: Color(0xFF1A1A1A), height: 1),
+          Divider(color: AppColors.of(context).border, height: 1),
 
           // Filter Sections Body
           Expanded(
@@ -577,18 +572,16 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
           // Filter Footer with APPLY FILTERS and SAVE AS buttons
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: const BoxDecoration(
-              border: Border(top: BorderSide(color: Color(0xFF1A1A1A))),
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: AppColors.of(context).border)),
             ),
             child: Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
-                      foregroundColor: const Color(0xFF0D0D0D),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     onPressed: () {
                       ref.read(terminalFeedProvider.notifier).applyFilters(
@@ -598,23 +591,23 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                           );
                     },
                     child: Text(
-                      'APPLY FILTERS',
-                      style: AppTypography.monoExtraSmall.copyWith(fontWeight: FontWeight.w600),
+                      'Apply filters',
+                      style: AppTypography.labelMedium.copyWith(fontWeight: FontWeight.w600, color: AppColors.onAccent),
                     ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.accent,
-                    side: const BorderSide(color: AppColors.accent),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    foregroundColor: AppColors.of(context).textPrimary,
+                    side: BorderSide(color: AppColors.of(context).border),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
                   ),
                   onPressed: () => _showSavePresetDialog(context),
                   child: Text(
-                    'SAVE AS',
-                    style: AppTypography.monoExtraSmall.copyWith(fontWeight: FontWeight.w600),
+                    'Save as',
+                    style: AppTypography.labelMedium.copyWith(fontWeight: FontWeight.w600, color: AppColors.of(context).textPrimary),
                   ),
                 ),
               ],
@@ -630,8 +623,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '> $title',
-          style: AppTypography.monoExtraSmall,
+          title,
+          style: AppTypography.labelMedium.copyWith(color: AppColors.of(context).textSecondary),
         ),
         const SizedBox(height: AppSpacing.sm),
         child,
