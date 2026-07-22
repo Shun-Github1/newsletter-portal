@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 enum Sector {
   politicsGovernment(1, 'Politics & Government', true),
   businessEconomy(2, 'Business & Economy', true),
@@ -59,5 +61,16 @@ enum FeedSortBy {
 }
 
 class ApiConstants {
-  static const String baseUrl = 'https://api.zonenews.io/dev/';
+  static const String productionBaseUrl = 'https://api.zonenews.io/dev/';
+
+  /// Local proxy for Flutter web dev (see tool/dev_api_proxy.py).
+  /// Must use `localhost` (same site as the Flutter web app), not `127.0.0.1`.
+  static const String webDevProxyBaseUrl = 'http://localhost:8081/';
+
+  static String get baseUrl {
+    if (kIsWeb && kDebugMode) {
+      return webDevProxyBaseUrl;
+    }
+    return productionBaseUrl;
+  }
 }

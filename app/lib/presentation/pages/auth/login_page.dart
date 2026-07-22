@@ -53,10 +53,14 @@ class _LoginPageState extends ConsumerState<LoginPage> with SingleTickerProvider
         _passwordController.text,
       );
       
-      // Navigate on success
-      if (mounted && ref.read(authStateProvider) is AuthAuthenticated) {
+      if (!mounted) return;
+
+      final authState = ref.read(authStateProvider);
+      if (authState is AuthAuthenticated) {
         context.go('/');
-      } else if (mounted) {
+      } else if (authState is AuthError) {
+        setState(() => _errorMessage = authState.message);
+      } else {
         setState(() => _errorMessage = 'Login failed. Please check your credentials.');
       }
     } catch (e) {
