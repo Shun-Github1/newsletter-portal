@@ -1,0 +1,6 @@
+{
+  "architecture": "Clean Architecture",
+  "state_management": "Riverpod",
+  "networking": "Dio",
+  "target_platforms": ["macos", "windows"]
+}
