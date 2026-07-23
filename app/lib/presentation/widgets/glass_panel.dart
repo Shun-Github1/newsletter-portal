@@ -26,8 +26,7 @@ class GlassPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final panel = AnimatedContainer(
-      duration: AppAnimation.normal,
+    final panel = Container(
       width: width,
       height: height,
       padding: padding ?? const EdgeInsets.all(AppSpacing.lg),

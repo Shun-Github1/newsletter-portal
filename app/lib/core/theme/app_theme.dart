@@ -172,6 +172,10 @@ class AppTheme {
       brightness: brightness,
       fontFamily: AppTypography.primaryFontFamily,
       scaffoldBackgroundColor: colors.background,
+      splashFactory: NoSplash.splashFactory,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      hoverColor: colors.surfaceHover.withValues(alpha: 0.35),
       extensions: [colors],
       colorScheme: ColorScheme(
         brightness: brightness,
@@ -304,6 +308,7 @@ class AppTheme {
         backgroundColor: colors.surfaceVariant,
         selectedColor: colors.accentSoft,
         side: BorderSide.none,
+        showCheckmark: false,
         labelStyle: colored(AppTypography.labelMedium, colors.textPrimary),
         secondaryLabelStyle: colored(AppTypography.labelMedium, colors.textPrimary),
       ),

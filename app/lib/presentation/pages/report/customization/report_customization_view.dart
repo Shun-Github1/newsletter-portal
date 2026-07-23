@@ -254,34 +254,18 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  ChoiceChip(
-                    label: Text('Point Form', style: AppTypography.labelMedium),
+                  _buildSelectChip(
+                    label: 'Point Form',
                     selected: mode == SummaryMode.pointForm,
-                    selectedColor: AppColors.of(context).surfaceHover,
-                    side: BorderSide(
-                      color: mode == SummaryMode.pointForm
-                          ? AppColors.of(context).textPrimary
-                          : Colors.transparent,
-                    ),
-                    onSelected: (selected) {
-                      if (selected) {
-                        ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.pointForm, language);
-                      }
+                    onTap: () {
+                      ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.pointForm, language);
                     },
                   ),
-                  ChoiceChip(
-                    label: Text('Paragraph', style: AppTypography.labelMedium),
+                  _buildSelectChip(
+                    label: 'Paragraph',
                     selected: mode == SummaryMode.paragraph,
-                    selectedColor: AppColors.of(context).surfaceHover,
-                    side: BorderSide(
-                      color: mode == SummaryMode.paragraph
-                          ? AppColors.of(context).textPrimary
-                          : Colors.transparent,
-                    ),
-                    onSelected: (selected) {
-                      if (selected) {
-                        ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.paragraph, language);
-                      }
+                    onTap: () {
+                      ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.paragraph, language);
                     },
                   ),
                 ],
@@ -304,9 +288,27 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  _buildLanguageChip('English (UK)', 'en-UK', language, mode),
-                  _buildLanguageChip('Traditional Chinese', 'zh-HK', language, mode),
-                  _buildLanguageChip('Simplified Chinese', 'zh-CN', language, mode),
+                  _buildSelectChip(
+                    label: 'English (UK)',
+                    selected: language == 'en-UK',
+                    onTap: () {
+                      ref.read(reportStateProvider.notifier).updateGlobalSettings(mode, 'en-UK');
+                    },
+                  ),
+                  _buildSelectChip(
+                    label: 'Traditional Chinese',
+                    selected: language == 'zh-HK',
+                    onTap: () {
+                      ref.read(reportStateProvider.notifier).updateGlobalSettings(mode, 'zh-HK');
+                    },
+                  ),
+                  _buildSelectChip(
+                    label: 'Simplified Chinese',
+                    selected: language == 'zh-CN',
+                    onTap: () {
+                      ref.read(reportStateProvider.notifier).updateGlobalSettings(mode, 'zh-CN');
+                    },
+                  ),
                 ],
               ),
             ),
@@ -316,20 +318,28 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
     );
   }
 
-  Widget _buildLanguageChip(String label, String code, String currentLang, SummaryMode mode) {
-    final isSelected = currentLang == code;
-    return ChoiceChip(
-      label: Text(label, style: AppTypography.labelMedium),
-      selected: isSelected,
-      selectedColor: AppColors.of(context).surfaceHover,
-      side: BorderSide(
-        color: isSelected ? AppColors.of(context).textPrimary : Colors.transparent,
+  Widget _buildSelectChip({
+    required String label,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    final colors = AppColors.of(context);
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: selected ? colors.surfaceHover : colors.surfaceVariant,
+            borderRadius: BorderRadius.circular(AppRadius.full),
+            border: Border.all(
+              color: selected ? colors.textPrimary : Colors.transparent,
+            ),
+          ),
+          child: Text(label, style: AppTypography.labelMedium),
+        ),
       ),
-      onSelected: (selected) {
-        if (selected) {
-          ref.read(reportStateProvider.notifier).updateGlobalSettings(mode, code);
-        }
-      },
     );
   }
 
