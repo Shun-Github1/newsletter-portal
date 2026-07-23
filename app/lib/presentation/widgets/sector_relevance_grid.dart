@@ -43,10 +43,7 @@ class SectorRelevanceGrid extends StatelessWidget {
       children: [
         _buildSectionTitle(context, 'Hard Sectors'),
         _buildSectorList(context, _hardSectors),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          child: Divider(color: AppColors.of(context).border),
-        ),
+        const SizedBox(height: AppSpacing.lg),
         _buildSectionTitle(context, 'Soft Sectors'),
         _buildSectorList(context, _softSectors),
       ],
@@ -102,11 +99,10 @@ class SectorRelevanceGrid extends StatelessWidget {
                     height: 16,
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).surfaceVariant,
+                      color: isSelected
+                          ? AppColors.of(context).textPrimary
+                          : AppColors.of(context).surfaceVariant,
                       borderRadius: BorderRadius.circular(2),
-                      border: Border.all(
-                        color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).border,
-                      ),
                     ),
                   ),
                 );

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
-import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
 import 'package:newsletter_portal/presentation/widgets/section_config_card.dart';
 import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/report_provider.dart';
@@ -20,7 +19,7 @@ class ReportCustomizationView extends ConsumerStatefulWidget {
 }
 
 class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationView> {
-  bool _isTemplateExpanded = true;
+  bool _isTemplateExpanded = false;
   late TextEditingController _docTitleController;
 
   // Active element sequences for Tier 1, Tier 2, and Tier 3 (Unified +/- Builders)
@@ -106,72 +105,71 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
     final activePreset = reportState.activePreset;
     final sections = activePreset?.sections ?? [];
 
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: GlassPanel(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTopBar(context),
-            Divider(height: 1, color: AppColors.of(context).border),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                children: [
-                  _build3TierTemplateArea(),
-                  const SizedBox(height: AppSpacing.lg),
-                  _buildFormatSection(activePreset?.summaryMode, activePreset?.language),
-                  const SizedBox(height: AppSpacing.xl),
-                  Text(
-                    'Sections',
-                    style: AppTypography.titleMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  ...sections.map((section) => Padding(
-                        padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                        child: SectionConfigCard(
-                          section: section,
-                          availableTags: ref.watch(allTopicsProvider).maybeWhen(
-                            data: (topics) => topics,
-                            orElse: () => const [],
-                          ),
-                          onUpdate: (updated) {
-                            ref.read(reportStateProvider.notifier).updateSection(section.id, updated);
-                          },
-                          onDelete: () {
-                            ref.read(reportStateProvider.notifier).removeSection(section.id);
-                          },
-                        ),
-                      )),
-                  const SizedBox(height: AppSpacing.md),
-                  OutlinedButton.icon(
-                    onPressed: () {
-                      final newSection = ReportSection(
-                        id: DateTime.now().millisecondsSinceEpoch.toString(),
-                        title: 'New Section ${sections.length + 1}',
-                        sectorWeights: const {},
-                        regionWeights: const {},
-                        tags: const [],
-                        minItems: 1,
-                        maxItems: 10,
-                        sentimentThreshold: 0.0,
-                      );
-                      ref.read(reportStateProvider.notifier).addSection(newSection);
-                    },
-                    icon: Icon(Icons.add, color: AppColors.of(context).textPrimary),
-                    label: Text('Add Section', style: AppTypography.labelLarge.copyWith(color: AppColors.of(context).textPrimary)),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: AppColors.of(context).border),
-                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                  ),
-                ],
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildTopBar(context),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.lg,
             ),
-          ],
+            children: [
+              _build3TierTemplateArea(),
+              const SizedBox(height: AppSpacing.lg),
+              _buildFormatSection(activePreset?.summaryMode, activePreset?.language),
+              const SizedBox(height: AppSpacing.xl),
+              Text(
+                'Sections',
+                style: AppTypography.titleMedium,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              ...sections.map((section) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                    child: SectionConfigCard(
+                      section: section,
+                      availableTags: ref.watch(allTopicsProvider).maybeWhen(
+                        data: (topics) => topics,
+                        orElse: () => const [],
+                      ),
+                      onUpdate: (updated) {
+                        ref.read(reportStateProvider.notifier).updateSection(section.id, updated);
+                      },
+                      onDelete: () {
+                        ref.read(reportStateProvider.notifier).removeSection(section.id);
+                      },
+                    ),
+                  )),
+              const SizedBox(height: AppSpacing.md),
+              OutlinedButton.icon(
+                onPressed: () {
+                  final newSection = ReportSection(
+                    id: DateTime.now().millisecondsSinceEpoch.toString(),
+                    title: 'New Section ${sections.length + 1}',
+                    sectorWeights: const {},
+                    regionWeights: const {},
+                    tags: const [],
+                    minItems: 1,
+                    maxItems: 10,
+                    sentimentThreshold: 0.0,
+                  );
+                  ref.read(reportStateProvider.notifier).addSection(newSection);
+                },
+                icon: Icon(Icons.add, color: AppColors.of(context).textPrimary),
+                label: Text('Add Section', style: AppTypography.labelLarge.copyWith(color: AppColors.of(context).textPrimary)),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: AppColors.of(context).border),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -234,87 +232,87 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
     final mode = currentMode ?? SummaryMode.pointForm;
     final language = currentLanguage ?? 'en-UK';
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.of(context).surface,
-        border: Border.all(color: AppColors.of(context).border),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Format',
-            style: AppTypography.titleMedium,
-          ),
-          const SizedBox(height: AppSpacing.md),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Format',
+          style: AppTypography.titleMedium,
+        ),
+        const SizedBox(height: AppSpacing.md),
 
-          // Summary Mode Selector
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 100,
-                child: Text('Summary:', style: AppTypography.bodySmall),
-              ),
-              Expanded(
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    ChoiceChip(
-                      label: Text('Point Form', style: AppTypography.labelMedium),
-                      selected: mode == SummaryMode.pointForm,
-                      selectedColor: AppColors.of(context).surfaceHover,
-                      side: BorderSide(color: mode == SummaryMode.pointForm ? AppColors.of(context).textPrimary : AppColors.of(context).border),
-                      onSelected: (selected) {
-                        if (selected) {
-                          ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.pointForm, language);
-                        }
-                      },
+        // Summary Mode Selector
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 100,
+              child: Text('Summary:', style: AppTypography.bodySmall),
+            ),
+            Expanded(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ChoiceChip(
+                    label: Text('Point Form', style: AppTypography.labelMedium),
+                    selected: mode == SummaryMode.pointForm,
+                    selectedColor: AppColors.of(context).surfaceHover,
+                    side: BorderSide(
+                      color: mode == SummaryMode.pointForm
+                          ? AppColors.of(context).textPrimary
+                          : Colors.transparent,
                     ),
-                    ChoiceChip(
-                      label: Text('Paragraph', style: AppTypography.labelMedium),
-                      selected: mode == SummaryMode.paragraph,
-                      selectedColor: AppColors.of(context).surfaceHover,
-                      side: BorderSide(color: mode == SummaryMode.paragraph ? AppColors.of(context).textPrimary : AppColors.of(context).border),
-                      onSelected: (selected) {
-                        if (selected) {
-                          ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.paragraph, language);
-                        }
-                      },
+                    onSelected: (selected) {
+                      if (selected) {
+                        ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.pointForm, language);
+                      }
+                    },
+                  ),
+                  ChoiceChip(
+                    label: Text('Paragraph', style: AppTypography.labelMedium),
+                    selected: mode == SummaryMode.paragraph,
+                    selectedColor: AppColors.of(context).surfaceHover,
+                    side: BorderSide(
+                      color: mode == SummaryMode.paragraph
+                          ? AppColors.of(context).textPrimary
+                          : Colors.transparent,
                     ),
-                  ],
-                ),
+                    onSelected: (selected) {
+                      if (selected) {
+                        ref.read(reportStateProvider.notifier).updateGlobalSettings(SummaryMode.paragraph, language);
+                      }
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.md),
 
-          // Language Selector
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 100,
-                child: Text('Language:', style: AppTypography.bodySmall),
+        // Language Selector
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 100,
+              child: Text('Language:', style: AppTypography.bodySmall),
+            ),
+            Expanded(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildLanguageChip('English (UK)', 'en-UK', language, mode),
+                  _buildLanguageChip('Traditional Chinese', 'zh-HK', language, mode),
+                  _buildLanguageChip('Simplified Chinese', 'zh-CN', language, mode),
+                ],
               ),
-              Expanded(
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _buildLanguageChip('English (UK)', 'en-UK', language, mode),
-                    _buildLanguageChip('Traditional Chinese', 'zh-HK', language, mode),
-                    _buildLanguageChip('Simplified Chinese', 'zh-CN', language, mode),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -324,7 +322,9 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
       label: Text(label, style: AppTypography.labelMedium),
       selected: isSelected,
       selectedColor: AppColors.of(context).surfaceHover,
-      side: BorderSide(color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).border),
+      side: BorderSide(
+        color: isSelected ? AppColors.of(context).textPrimary : Colors.transparent,
+      ),
       onSelected: (selected) {
         if (selected) {
           ref.read(reportStateProvider.notifier).updateGlobalSettings(mode, code);
@@ -337,8 +337,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
   Widget _build3TierTemplateArea() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.of(context).surface,
-        border: Border.all(color: AppColors.of(context).border),
+        color: AppColors.of(context).surfaceVariant,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -369,10 +368,14 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
               ),
             ),
           ),
-          if (_isTemplateExpanded) ...[
-            Divider(height: 1, color: AppColors.of(context).border),
+          if (_isTemplateExpanded)
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                0,
+                AppSpacing.md,
+                AppSpacing.md,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -422,7 +425,6 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 ],
               ),
             ),
-          ],
         ],
       ),
     );
@@ -432,8 +434,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
   Widget _buildTier1SequenceBuilderBox() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.of(context).background,
-        border: Border.all(color: AppColors.of(context).border),
+        color: AppColors.of(context).surface,
         borderRadius: BorderRadius.circular(6),
       ),
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -512,8 +513,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.of(context).background,
-        border: Border.all(color: AppColors.of(context).border),
+        color: AppColors.of(context).surface,
         borderRadius: BorderRadius.circular(6),
       ),
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -551,8 +551,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
           width: double.infinity,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.of(context).surface,
-            border: Border.all(color: AppColors.of(context).border),
+            color: AppColors.of(context).surfaceVariant,
             borderRadius: BorderRadius.circular(4),
           ),
           child: elements.isEmpty
@@ -569,9 +568,6 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: isLineBreak ? Color(0xFFFCF3E6) : AppColors.of(context).surfaceHover,
-                        border: Border.all(
-                          color: isLineBreak ? AppColors.warning : AppColors.of(context).border,
-                        ),
                         borderRadius: BorderRadius.circular(AppRadius.sm),
                       ),
                       child: Row(
@@ -621,8 +617,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.of(context).surface,
-                    border: Border.all(color: AppColors.of(context).border),
+                    color: AppColors.of(context).surfaceHover,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Row(
@@ -653,7 +648,6 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFCF3E6),
-                  border: Border.all(color: AppColors.warning),
                   borderRadius: BorderRadius.circular(AppRadius.sm),
                 ),
                 child: Row(

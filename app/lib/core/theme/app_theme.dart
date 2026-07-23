@@ -217,7 +217,6 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: colors.border, width: 1),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -293,20 +292,18 @@ class AppTheme {
         backgroundColor: colors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: colors.border),
         ),
       ),
       popupMenuTheme: PopupMenuThemeData(
         color: colors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: colors.border),
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colors.surfaceVariant,
         selectedColor: colors.accentSoft,
-        side: BorderSide(color: colors.border),
+        side: BorderSide.none,
         labelStyle: colored(AppTypography.labelMedium, colors.textPrimary),
         secondaryLabelStyle: colored(AppTypography.labelMedium, colors.textPrimary),
       ),

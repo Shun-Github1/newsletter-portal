@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
+import 'package:newsletter_portal/presentation/widgets/brand_logo.dart';
 import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
 import 'package:newsletter_portal/presentation/providers/auth_provider.dart';
 
@@ -68,7 +69,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
       );
       
       if (mounted && ref.read(authStateProvider) is AuthAuthenticated) {
-        context.go('/');
+        context.go('/report');
       } else {
         setState(() => _errorMessage = 'Registration failed.');
       }
@@ -97,27 +98,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 12,
-                          height: 12,
-                          decoration: const BoxDecoration(
-                            color: AppColors.accent,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Text(
-                          'Newsletter',
-                          style: AppTypography.headlineLarge.copyWith(
-                            color: AppColors.of(context).textPrimary,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                      ],
+                    const BrandLogo(size: 56),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      'Newsletter',
+                      style: AppTypography.headlineLarge.copyWith(
+                        color: AppColors.of(context).textPrimary,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.5,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(

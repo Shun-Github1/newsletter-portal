@@ -65,13 +65,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
-    state = AuthLoading();
+    // Skip AuthLoading so the router only redirects once (avoids remounting LoginPage).
     try {
       await _authRepository.logout();
-      state = AuthUnauthenticated();
-    } catch (e) {
-      state = AuthError(e.toString());
+    } catch (_) {
+      // Clear local session even if the network call fails.
     }
+    state = AuthUnauthenticated();
   }
 }
 

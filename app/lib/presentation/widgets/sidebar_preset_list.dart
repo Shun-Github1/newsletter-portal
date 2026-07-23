@@ -32,7 +32,6 @@ class SidebarPresetList extends StatelessWidget {
       color: AppColors.of(context).surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: AppColors.of(context).border),
       ),
       items: [
         PopupMenuItem(

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
-import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
 import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/report_provider.dart';
 import 'package:newsletter_portal/domain/entities/report_preset.dart';
@@ -36,73 +35,54 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
       selectedArticleIds,
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: GlassPanel(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTopBar(context, fullDocumentText),
-            Divider(height: 1, color: AppColors.of(context).border),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: Center(
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 900),
-                    padding: const EdgeInsets.all(AppSpacing.xl),
-                    decoration: BoxDecoration(
-                      color: AppColors.of(context).surface,
-                      border: Border.all(color: AppColors.of(context).border),
-                      borderRadius: BorderRadius.circular(AppRadius.lg),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x14101828),
-                          blurRadius: 24,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildTopBar(context, fullDocumentText),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.lg,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 900),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Document Status Header Line
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'DOCUMENT TYPE: INTELLIGENCE REPORT',
-                              style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'CONFIDENTIAL / FOR INTERNAL USE ONLY',
-                              style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary),
-                            ),
-                          ],
+                        Text(
+                          'DOCUMENT TYPE: INTELLIGENCE REPORT',
+                          style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: AppSpacing.md),
-                        Divider(color: AppColors.of(context).border),
-                        const SizedBox(height: AppSpacing.md),
-
-                        // Continuous Plain Text Document Content
-                        SelectableText(
-                          fullDocumentText,
-                          style: TextStyle(
-                            fontFamily: _isMonospace ? 'monospace' : 'Roboto',
-                            fontSize: 13,
-                            height: 1.6,
-                            color: AppColors.of(context).textPrimary,
-                          ),
+                        Text(
+                          'CONFIDENTIAL / FOR INTERNAL USE ONLY',
+                          style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary),
                         ),
                       ],
                     ),
-                  ),
+                    const SizedBox(height: AppSpacing.lg),
+                    SelectableText(
+                      fullDocumentText,
+                      style: TextStyle(
+                        fontFamily: _isMonospace ? 'monospace' : 'Roboto',
+                        fontSize: 13,
+                        height: 1.6,
+                        color: AppColors.of(context).textPrimary,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

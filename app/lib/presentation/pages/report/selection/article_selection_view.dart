@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
-import 'package:newsletter_portal/presentation/widgets/glass_panel.dart';
 import 'package:newsletter_portal/presentation/widgets/article_card.dart';
 import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/providers/report_provider.dart';
@@ -19,41 +18,40 @@ class ArticleSelectionView extends ConsumerWidget {
     // Calculate total selected articles across all sections
     final selectedCount = reportState.selectedArticleIds.values.fold(0, (sum, set) => sum + set.length);
 
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: GlassPanel(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTopBar(context, ref, selectedCount),
-            Divider(height: 1, color: AppColors.of(context).border),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                itemCount: previewArticles.length,
-                itemBuilder: (context, index) {
-                  final sectionId = previewArticles.keys.elementAt(index);
-                  final articles = previewArticles[sectionId] ?? [];
-                  
-                  // Find section name from active preset
-                  final matchingSections = (reportState.activePreset?.sections ?? []).where((s) => s.id == sectionId);
-                  final section = matchingSections.isNotEmpty ? matchingSections.first : null;
-                  final sectionName = section?.title ?? 'Section ${index + 1}';
-
-                  return _SectionPanel(
-                    sectionName: sectionName,
-                    articles: articles,
-                    selectedIds: reportState.selectedArticleIds[sectionId] ?? {},
-                    onToggleArticle: (articleId) {
-                      ref.read(reportStateProvider.notifier).toggleArticle(sectionId, articleId);
-                    },
-                  );
-                },
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildTopBar(context, ref, selectedCount),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.lg,
             ),
-          ],
+            itemCount: previewArticles.length,
+            itemBuilder: (context, index) {
+              final sectionId = previewArticles.keys.elementAt(index);
+              final articles = previewArticles[sectionId] ?? [];
+
+              // Find section name from active preset
+              final matchingSections = (reportState.activePreset?.sections ?? []).where((s) => s.id == sectionId);
+              final section = matchingSections.isNotEmpty ? matchingSections.first : null;
+              final sectionName = section?.title ?? 'Section ${index + 1}';
+
+              return _SectionPanel(
+                sectionName: sectionName,
+                articles: articles,
+                selectedIds: reportState.selectedArticleIds[sectionId] ?? {},
+                onToggleArticle: (articleId) {
+                  ref.read(reportStateProvider.notifier).toggleArticle(sectionId, articleId);
+                },
+              );
+            },
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -143,8 +141,7 @@ class _SectionPanelState extends State<_SectionPanel> {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.of(context).surface,
-        border: Border.all(color: AppColors.of(context).border),
+        color: AppColors.of(context).surfaceVariant,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -172,10 +169,14 @@ class _SectionPanelState extends State<_SectionPanel> {
               ),
             ),
           ),
-          if (_isExpanded) ...[
-            Divider(height: 1, color: AppColors.of(context).border),
+          if (_isExpanded)
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                0,
+                AppSpacing.md,
+                AppSpacing.md,
+              ),
               child: Column(
                 children: [
                   ...widget.articles.map((article) {
@@ -201,7 +202,6 @@ class _SectionPanelState extends State<_SectionPanel> {
                 ],
               ),
             ),
-          ],
         ],
       ),
     );

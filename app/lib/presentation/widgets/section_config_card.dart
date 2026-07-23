@@ -91,6 +91,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
   Widget build(BuildContext context) {
     return GlassPanel(
       padding: EdgeInsets.zero,
+      backgroundColor: AppColors.of(context).surfaceVariant,
       child: Column(
         children: [
           // Header
@@ -154,8 +155,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Divider(color: AppColors.of(context).border),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -200,9 +200,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Divider(color: AppColors.of(context).border),
-                  const SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: AppSpacing.xl),
                   Row(
                     children: [
                       Text('Items:', style: AppTypography.bodySmall),

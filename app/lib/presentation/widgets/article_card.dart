@@ -109,7 +109,6 @@ class ArticleCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.of(context).surfaceVariant,
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppColors.of(context).border),
       ),
       child: Text(
         label.toUpperCase(),

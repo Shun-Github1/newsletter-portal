@@ -64,8 +64,13 @@ class ApiConstants {
   static const String productionBaseUrl = 'https://api.zonenews.io/dev/';
 
   /// Local proxy for Flutter web dev (see tool/dev_api_proxy.py).
-  /// Must use `localhost` (same site as the Flutter web app), not `127.0.0.1`.
-  static const String webDevProxyBaseUrl = 'http://localhost:8081/';
+  /// Host must match the page origin (`localhost` vs `127.0.0.1`) or
+  /// browsers treat cookies as cross-site and login fails after success.
+  static String get webDevProxyBaseUrl {
+    final host = Uri.base.host;
+    final proxyHost = (host == '127.0.0.1' || host == 'localhost') ? host : 'localhost';
+    return 'http://$proxyHost:8081/';
+  }
 
   static String get baseUrl {
     if (kIsWeb && kDebugMode) {

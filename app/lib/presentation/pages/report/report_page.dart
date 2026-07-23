@@ -118,7 +118,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.of(context).sidebar,
-        border: Border(right: BorderSide(color: AppColors.of(context).border)),
       ),
       child: SidebarPresetList(
         presets: presetState,
@@ -176,7 +175,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.of(context).sidebar,
-        border: Border(left: BorderSide(color: AppColors.of(context).border)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -225,7 +223,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
               ],
             ),
           ),
-          Divider(height: 1, color: AppColors.of(context).border),
 
           // Section-by-Section Cards List
           Expanded(
@@ -246,7 +243,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                         padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: AppColors.of(context).surface,
-                          border: Border.all(color: AppColors.of(context).border),
                           borderRadius: BorderRadius.circular(AppRadius.md),
                         ),
                         child: Column(
@@ -285,9 +281,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                               'Tags: ${section.tags.isEmpty ? "ALL" : section.tags.join(", ")} | Cutoff: ${section.sentimentThreshold.toStringAsFixed(2)}',
                               style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textTertiary),
                             ),
-                            const SizedBox(height: 8),
-                            Divider(height: 1, color: AppColors.of(context).border),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: AppSpacing.md),
 
                             // Preview Items List
                             if (matchedArticles.isEmpty)

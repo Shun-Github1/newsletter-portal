@@ -18,7 +18,7 @@ class GlassPanel extends StatelessWidget {
     this.padding,
     this.width,
     this.height,
-    this.showBorder = true,
+    this.showBorder = false,
     this.borderRadius = AppRadius.lg,
     this.backgroundColor,
     this.onTap,
@@ -93,10 +93,6 @@ class _GlassPanelHoverState extends State<GlassPanelHover> {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = widget.isSelected
-        ? AppColors.of(context).textPrimary
-        : AppColors.of(context).border;
-
     final bgColor = widget.isSelected
         ? AppColors.of(context).surfaceHover
         : _isHovered
@@ -117,7 +113,9 @@ class _GlassPanelHoverState extends State<GlassPanelHover> {
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(widget.borderRadius),
-            border: Border.all(color: borderColor, width: 1),
+            border: widget.isSelected
+                ? Border.all(color: AppColors.of(context).textPrimary, width: 1)
+                : null,
           ),
           child: widget.child,
         ),

@@ -80,7 +80,6 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
           backgroundColor: AppColors.of(context).surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: BorderSide(color: AppColors.of(context).border),
           ),
           title: Text(
             'Save Filter Preset',
@@ -249,7 +248,6 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               ],
             ),
           ),
-          Divider(color: AppColors.of(context).border, height: 1),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 4),
@@ -260,11 +258,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                   onTap: () {
                     // Apply preset filters if available
                   },
-                  child: Container(
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: AppColors.of(context).borderLight)),
-                    ),
                     child: Row(
                       children: [
                         Icon(Icons.bookmark_outline, size: 14, color: AppColors.of(context).textTertiary),
@@ -292,10 +287,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
   Widget _buildFeedHeader() {
     return Container(
       height: 36,
-      decoration: BoxDecoration(
-        color: AppColors.of(context).sidebar,
-        border: Border(bottom: BorderSide(color: AppColors.of(context).border)),
-      ),
+      color: AppColors.of(context).sidebar,
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
@@ -402,10 +394,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
 
     return Container(
       height: 28,
-      decoration: BoxDecoration(
-        color: AppColors.of(context).sidebar,
-        border: Border(top: BorderSide(color: AppColors.of(context).border)),
-      ),
+      color: AppColors.of(context).sidebar,
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -515,7 +504,6 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               ],
             ),
           ),
-          Divider(color: AppColors.of(context).border, height: 1),
 
           // Filter Sections Body
           Expanded(
@@ -570,11 +558,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
           ),
 
           // Filter Footer with APPLY FILTERS and SAVE AS buttons
-          Container(
+          Padding(
             padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: AppColors.of(context).border)),
-            ),
             child: Row(
               children: [
                 Expanded(

@@ -10,6 +10,7 @@ import 'package:newsletter_portal/presentation/providers/terminal_provider.dart'
 import 'package:newsletter_portal/presentation/providers/auth_provider.dart';
 import 'package:newsletter_portal/presentation/providers/theme_provider.dart';
 import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
+import 'package:newsletter_portal/presentation/widgets/brand_logo.dart';
 
 class CompactTopBar extends ConsumerWidget {
   final String activeRoute; // '/terminal' or '/report'
@@ -49,7 +50,7 @@ class CompactTopBar extends ConsumerWidget {
       height: 52,
       decoration: BoxDecoration(
         color: colors.background,
-        border: Border(bottom: BorderSide(color: colors.border, width: 1)),
+        border: Border(bottom: BorderSide(color: colors.borderLight, width: 1)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -71,14 +72,7 @@ class CompactTopBar extends ConsumerWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            width: 9,
-                            height: 9,
-                            decoration: const BoxDecoration(
-                              color: AppColors.accent,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
+                          const BrandLogo(size: 28),
                           const SizedBox(width: AppSpacing.sm),
                           Text(
                             'Newsletter',
@@ -133,11 +127,11 @@ class CompactTopBar extends ConsumerWidget {
                             fillColor: colors.surfaceVariant,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(AppRadius.md),
-                              borderSide: BorderSide(color: colors.border, width: 1),
+                              borderSide: BorderSide.none,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(AppRadius.md),
-                              borderSide: BorderSide(color: colors.border, width: 1),
+                              borderSide: BorderSide.none,
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(AppRadius.md),
@@ -172,10 +166,12 @@ class CompactTopBar extends ConsumerWidget {
                         onSelected: (mode) =>
                             ref.read(themeModeProvider.notifier).setMode(mode),
                       ),
-                      AppIconButton(
-                        icon: Icons.person_outline,
-                        onPressed: () => ref.read(authStateProvider.notifier).logout(),
-                        tooltip: 'Logout',
+                      _ProfileMenu(
+                        username: switch (ref.watch(authStateProvider)) {
+                          AuthAuthenticated(:final user) => user.username,
+                          _ => null,
+                        },
+                        onLogout: () => ref.read(authStateProvider.notifier).logout(),
                       ),
                     ],
                   ),
@@ -226,7 +222,6 @@ class CompactTopBar extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colors.surfaceVariant,
         borderRadius: BorderRadius.circular(AppRadius.md),
-        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -249,7 +244,6 @@ class CompactTopBar extends ConsumerWidget {
         decoration: BoxDecoration(
           color: isActive ? colors.surface : Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.sm),
-          border: isActive ? Border.all(color: colors.border) : null,
         ),
         child: Text(
           label,
@@ -257,6 +251,83 @@ class CompactTopBar extends ConsumerWidget {
             color: isActive ? colors.textPrimary : colors.textSecondary,
             fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileMenu extends StatefulWidget {
+  final String? username;
+  final VoidCallback onLogout;
+
+  const _ProfileMenu({
+    required this.username,
+    required this.onLogout,
+  });
+
+  @override
+  State<_ProfileMenu> createState() => _ProfileMenuState();
+}
+
+class _ProfileMenuState extends State<_ProfileMenu> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final triggerColor = _hovered ? colors.iconHover : colors.icon;
+
+    return PopupMenuButton<String>(
+      tooltip: 'Profile',
+      offset: const Offset(0, 36),
+      color: colors.surface,
+      constraints: const BoxConstraints(minWidth: 176),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
+      onSelected: (value) {
+        if (value == 'logout') widget.onLogout();
+      },
+      itemBuilder: (context) => [
+        if (widget.username != null)
+          PopupMenuItem<String>(
+            enabled: false,
+            height: 40,
+            child: Text(
+              widget.username!,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.labelLarge.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        if (widget.username != null) const PopupMenuDivider(height: 8),
+        PopupMenuItem<String>(
+          value: 'logout',
+          child: Row(
+            children: [
+              Icon(Icons.logout, size: 16, color: colors.icon),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                'Log out',
+                style: AppTypography.labelLarge.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Icon(Icons.person_outline, size: 18, color: triggerColor),
         ),
       ),
     );
@@ -294,7 +365,6 @@ class _ThemeModeMenuState extends State<_ThemeModeMenu> {
       constraints: const BoxConstraints(minWidth: 176),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.md),
-        side: BorderSide(color: colors.border),
       ),
       onSelected: widget.onSelected,
       itemBuilder: (context) => [

@@ -69,11 +69,10 @@ class RegionRelevanceGrid extends StatelessWidget {
                     height: 16,
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).surfaceVariant,
+                      color: isSelected
+                          ? AppColors.of(context).textPrimary
+                          : AppColors.of(context).surfaceVariant,
                       borderRadius: BorderRadius.circular(2),
-                      border: Border.all(
-                        color: isSelected ? AppColors.of(context).textPrimary : AppColors.of(context).border,
-                      ),
                     ),
                   ),
                 );
