@@ -57,15 +57,9 @@ class RegionRelevanceGrid extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: List.generate(5, (index) {
-                final weight = index + 1;
-                return StrengthBox(
-                  isSelected: weight <= currentValue,
-                  onTap: () => onChanged(region, weight),
-                );
-              }),
+            child: StrengthBar(
+              value: currentValue,
+              onChanged: (weight) => onChanged(region, weight),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),

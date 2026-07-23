@@ -87,15 +87,9 @@ class SectorRelevanceGrid extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: List.generate(5, (index) {
-                final weight = index + 1;
-                return StrengthBox(
-                  isSelected: weight <= currentValue,
-                  onTap: () => onChanged(id, weight),
-                );
-              }),
+            child: StrengthBar(
+              value: currentValue,
+              onChanged: (weight) => onChanged(id, weight),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
