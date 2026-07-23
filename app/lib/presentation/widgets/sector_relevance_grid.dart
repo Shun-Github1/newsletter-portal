@@ -39,24 +39,34 @@ class SectorRelevanceGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle(context, 'Hard Sectors'),
+        Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+          child: Text(
+            'Sectors',
+            style: AppTypography.sectionTitle.copyWith(color: colors.textPrimary),
+          ),
+        ),
+        _buildSubsectionTitle(context, 'Hard Sectors'),
         _buildSectorList(context, _hardSectors),
-        const SizedBox(height: AppSpacing.lg),
-        _buildSectionTitle(context, 'Soft Sectors'),
+        const SizedBox(height: AppSpacing.md),
+        _buildSubsectionTitle(context, 'Soft Sectors'),
         _buildSectorList(context, _softSectors),
       ],
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context, String title) {
+  Widget _buildSubsectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Text(
         title,
-        style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textSecondary),
+        style: AppTypography.subsectionTitle.copyWith(
+          color: AppColors.of(context).textSecondary,
+        ),
       ),
     );
   }

@@ -190,9 +190,8 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                   children: [
                     Text(
                       'Live section preview',
-                      style: AppTypography.labelLarge.copyWith(
+                      style: AppTypography.panelTitle.copyWith(
                         color: AppColors.of(context).textPrimary,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -254,8 +253,10 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '${idx + 1}. ${section.title.toUpperCase()}',
-                                    style: AppTypography.monoSmall.copyWith(fontWeight: FontWeight.bold, color: AppColors.of(context).textPrimary),
+                                    '${idx + 1}. ${section.title}',
+                                    style: AppTypography.sectionTitle.copyWith(
+                                      color: AppColors.of(context).textPrimary,
+                                    ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),

@@ -14,7 +14,7 @@ class ReportShell extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.of(context).sidebar,
         elevation: 0,
-        title: Text('Report', style: AppTypography.headlineMedium),
+        title: Text('Report', style: AppTypography.pageTitle),
         actions: [
           TextButton(
             onPressed: () => context.go('/terminal'),

@@ -76,9 +76,8 @@ class CompactTopBar extends ConsumerWidget {
                           const SizedBox(width: AppSpacing.sm),
                           Text(
                             'Newsletter',
-                            style: AppTypography.titleMedium.copyWith(
+                            style: AppTypography.panelTitle.copyWith(
                               color: colors.textPrimary,
-                              fontWeight: FontWeight.w600,
                               letterSpacing: -0.2,
                             ),
                           ),

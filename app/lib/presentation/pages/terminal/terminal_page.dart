@@ -83,7 +83,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
           ),
           title: Text(
             'Save Filter Preset',
-            style: AppTypography.titleLarge,
+            style: AppTypography.pageTitle,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -232,9 +232,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               children: [
                 Text(
                   'Presets',
-                  style: AppTypography.labelMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.of(context).textSecondary,
+                  style: AppTypography.panelTitle.copyWith(
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 InkWell(
@@ -472,9 +471,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               children: [
                 Text(
                   'Filters',
-                  style: AppTypography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTypography.panelTitle,
                 ),
                 if (activeFiltersCount > 0) ...[
                   const SizedBox(width: 6),
@@ -510,48 +507,51 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
             child: ListView(
               padding: const EdgeInsets.all(AppSpacing.md),
               children: [
-                _buildFilterSection(
-                  'SECTORS',
-                  SectorRelevanceGrid(
-                    values: _tempSectorWeights,
-                    onChanged: (id, weight) => setState(() {
-                      _tempSectorWeights[id] = weight;
-                    }),
-                  ),
+                SectorRelevanceGrid(
+                  values: _tempSectorWeights,
+                  onChanged: (id, weight) => setState(() {
+                    _tempSectorWeights[id] = weight;
+                  }),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                _buildFilterSection(
-                  'REGIONS',
-                  RegionRelevanceGrid(
-                    values: _tempRegionWeights,
-                    onChanged: (region, weight) => setState(() {
-                      _tempRegionWeights[region] = weight;
-                    }),
-                  ),
+                RegionRelevanceGrid(
+                  values: _tempRegionWeights,
+                  onChanged: (region, weight) => setState(() {
+                    _tempRegionWeights[region] = weight;
+                  }),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                _buildFilterSection(
-                  'TAGS',
-                  TagPicker(
-                    availableTags: ref.watch(allTopicsProvider).maybeWhen(
-                      data: (topics) => topics.isNotEmpty ? topics : const [
-                        (tag: 'politics', displayName: 'Politics'),
-                        (tag: 'business', displayName: 'Business'),
-                        (tag: 'tech', displayName: 'Tech'),
-                        (tag: 'macro-economics', displayName: 'Macro Economics'),
-                        (tag: 'markets', displayName: 'Markets'),
-                      ],
-                      orElse: () => const [
-                        (tag: 'politics', displayName: 'Politics'),
-                        (tag: 'business', displayName: 'Business'),
-                        (tag: 'tech', displayName: 'Tech'),
-                        (tag: 'macro-economics', displayName: 'Macro Economics'),
-                        (tag: 'markets', displayName: 'Markets'),
-                      ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tags',
+                      style: AppTypography.sectionTitle.copyWith(
+                        color: AppColors.of(context).textPrimary,
+                      ),
                     ),
-                    selectedTags: _tempSelectedTags,
-                    onChanged: (tags) => setState(() => _tempSelectedTags = tags),
-                  ),
+                    const SizedBox(height: AppSpacing.sm),
+                    TagPicker(
+                      availableTags: ref.watch(allTopicsProvider).maybeWhen(
+                        data: (topics) => topics.isNotEmpty ? topics : const [
+                          (tag: 'politics', displayName: 'Politics'),
+                          (tag: 'business', displayName: 'Business'),
+                          (tag: 'tech', displayName: 'Tech'),
+                          (tag: 'macro-economics', displayName: 'Macro Economics'),
+                          (tag: 'markets', displayName: 'Markets'),
+                        ],
+                        orElse: () => const [
+                          (tag: 'politics', displayName: 'Politics'),
+                          (tag: 'business', displayName: 'Business'),
+                          (tag: 'tech', displayName: 'Tech'),
+                          (tag: 'macro-economics', displayName: 'Macro Economics'),
+                          (tag: 'markets', displayName: 'Markets'),
+                        ],
+                      ),
+                      selectedTags: _tempSelectedTags,
+                      onChanged: (tags) => setState(() => _tempSelectedTags = tags),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -600,20 +600,6 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildFilterSection(String title, Widget child) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: AppTypography.labelMedium.copyWith(color: AppColors.of(context).textSecondary),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        child,
-      ],
     );
   }
 }

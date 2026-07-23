@@ -9,9 +9,16 @@ abstract class AppTypography {
   static String get primaryFontFamily => bodyFontFamily;
 
   // --- Headers (Open Sans) ---
+  // Size scale: 28 → 24 → 20 → 18 → 16 → 14 → 12
+  //
+  // Semantic hierarchy (use these for UI chrome titles):
+  //   pageTitle       → titleLarge   (18)  page / step / dialog titles
+  //   panelTitle      → titleMedium  (16)  sidebar & panel headers
+  //   sectionTitle    → titleSmall   (14)  group headers (Sectors, Regions, Tags)
+  //   subsectionTitle → 12 / w600         nested headers (Hard/Soft Sectors)
 
   static TextStyle displayLarge = GoogleFonts.openSans(
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: FontWeight.w700,
     letterSpacing: -0.4,
   );
@@ -23,13 +30,15 @@ abstract class AppTypography {
   );
 
   static TextStyle headlineMedium = GoogleFonts.openSans(
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: FontWeight.w600,
+    letterSpacing: -0.2,
   );
 
   static TextStyle titleLarge = GoogleFonts.openSans(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.w600,
+    letterSpacing: -0.15,
   );
 
   static TextStyle titleMedium = GoogleFonts.openSans(
@@ -38,9 +47,20 @@ abstract class AppTypography {
   );
 
   static TextStyle titleSmall = GoogleFonts.openSans(
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: FontWeight.w600,
   );
+
+  /// Nested under [sectionTitle] — e.g. Hard/Soft Sectors under Sectors.
+  static TextStyle subsectionTitle = GoogleFonts.openSans(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+  );
+
+  // Semantic aliases — prefer these at call sites for consistent hierarchy.
+  static TextStyle get pageTitle => titleLarge;
+  static TextStyle get panelTitle => titleMedium;
+  static TextStyle get sectionTitle => titleSmall;
 
   // --- Body / UI (IBM Plex Sans) ---
 
@@ -108,17 +128,17 @@ abstract class AppTypography {
   );
 
   static TextStyle serifTitle = GoogleFonts.openSans(
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: FontWeight.w700,
   );
 
   static TextStyle serifHeading = GoogleFonts.openSans(
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle serifSubheading = GoogleFonts.openSans(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.w600,
   );
 

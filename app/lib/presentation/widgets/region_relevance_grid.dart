@@ -27,7 +27,9 @@ class RegionRelevanceGrid extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: AppSpacing.sm),
           child: Text(
             'Regions',
-            style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textSecondary),
+            style: AppTypography.sectionTitle.copyWith(
+              color: AppColors.of(context).textPrimary,
+            ),
           ),
         ),
         Column(

@@ -124,7 +124,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
               const SizedBox(height: AppSpacing.xl),
               Text(
                 'Sections',
-                style: AppTypography.titleMedium,
+                style: AppTypography.panelTitle,
               ),
               const SizedBox(height: AppSpacing.md),
               ...sections.map((section) => Padding(
@@ -183,7 +183,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
         children: [
           Text(
             'Report Configuration',
-            style: AppTypography.titleLarge,
+            style: AppTypography.pageTitle,
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -237,7 +237,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
       children: [
         Text(
           'Format',
-          style: AppTypography.titleMedium,
+          style: AppTypography.panelTitle,
         ),
         const SizedBox(height: AppSpacing.md),
 
@@ -358,7 +358,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     children: [
                       const AppIcon(Icons.description, size: 18),
                       const SizedBox(width: AppSpacing.sm),
-                      Text('Template Editor', style: AppTypography.titleMedium),
+                      Text('Template Editor', style: AppTypography.panelTitle),
                     ],
                   ),
                   AppIcon(
@@ -441,7 +441,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Tier 1: Document Header Format Builder', style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textPrimary)),
+          Text('Tier 1: Document Header Format Builder', style: AppTypography.sectionTitle.copyWith(color: AppColors.of(context).textPrimary)),
           const SizedBox(height: 2),
           Text('Configure document title text and top-level header metadata format.', style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary)),
           const SizedBox(height: AppSpacing.md),
@@ -520,7 +520,7 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(tierTitle, style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textPrimary)),
+          Text(tierTitle, style: AppTypography.sectionTitle.copyWith(color: AppColors.of(context).textPrimary)),
           const SizedBox(height: 2),
           Text(tierSubtitle, style: AppTypography.monoTiny.copyWith(color: AppColors.of(context).textSecondary)),
           const SizedBox(height: AppSpacing.md),

@@ -77,7 +77,7 @@ class ArticleSelectionView extends ConsumerWidget {
               const SizedBox(width: AppSpacing.xs),
               Text(
                 'Article Selection',
-                style: AppTypography.titleLarge,
+                style: AppTypography.pageTitle,
               ),
             ],
           ),
@@ -160,7 +160,9 @@ class _SectionPanelState extends State<_SectionPanel> {
                 children: [
                   Text(
                     '${widget.sectionName} ($sectionSelectedCount/${widget.articles.length} selected)',
-                    style: AppTypography.titleMedium,
+                    style: AppTypography.sectionTitle.copyWith(
+                      color: AppColors.of(context).textPrimary,
+                    ),
                   ),
                   AppIcon(
                     _isExpanded ? Icons.expand_less : Icons.expand_more,

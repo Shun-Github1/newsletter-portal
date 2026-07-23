@@ -110,7 +110,9 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                     child: _isExpanded
                         ? TextField(
                             controller: _titleController,
-                            style: AppTypography.titleMedium,
+                            style: AppTypography.panelTitle.copyWith(
+                              color: AppColors.of(context).textPrimary,
+                            ),
                             decoration: const InputDecoration(
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 4),
@@ -121,7 +123,9 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                           )
                         : Text(
                             widget.section.title,
-                            style: AppTypography.titleMedium,
+                            style: AppTypography.panelTitle.copyWith(
+                              color: AppColors.of(context).textPrimary,
+                            ),
                           ),
                   ),
                   if (!_isExpanded) ...[
@@ -186,7 +190,9 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 'Tags',
-                                style: AppTypography.titleSmall.copyWith(color: AppColors.of(context).textSecondary),
+                                style: AppTypography.sectionTitle.copyWith(
+                                  color: AppColors.of(context).textPrimary,
+                                ),
                               ),
                             ),
                             const SizedBox(height: AppSpacing.sm),

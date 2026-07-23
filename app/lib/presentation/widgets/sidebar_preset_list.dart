@@ -58,7 +58,7 @@ class SidebarPresetList extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppColors.of(context).surface,
-          title: Text('Rename Preset', style: AppTypography.titleMedium),
+          title: Text('Rename Preset', style: AppTypography.pageTitle),
           content: TextField(
             controller: controller,
             style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
@@ -99,9 +99,7 @@ class SidebarPresetList extends StatelessWidget {
             children: [
               Text(
                 'Projects',
-                style: AppTypography.monoTiny.copyWith(
-                  letterSpacing: 1.1,
-                ),
+                style: AppTypography.panelTitle,
               ),
               AppIconButton(
                 icon: Icons.add,

@@ -108,7 +108,7 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
               const SizedBox(width: AppSpacing.xs),
               Text(
                 'Report Preview',
-                style: AppTypography.titleLarge,
+                style: AppTypography.pageTitle,
               ),
             ],
           ),
