@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
+import 'package:newsletter_portal/presentation/widgets/strength_box.dart';
 
 class RegionRelevanceGrid extends StatelessWidget {
   final Map<String, int> values;
@@ -60,21 +61,9 @@ class RegionRelevanceGrid extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: List.generate(5, (index) {
                 final weight = index + 1;
-                final isSelected = weight <= currentValue;
-                
-                return GestureDetector(
+                return StrengthBox(
+                  isSelected: weight <= currentValue,
                   onTap: () => onChanged(region, weight),
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.of(context).textPrimary
-                          : AppColors.of(context).surfaceVariant,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
                 );
               }),
             ),
