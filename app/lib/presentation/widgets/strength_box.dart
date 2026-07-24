@@ -67,12 +67,17 @@ class StrengthBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
     final Color color;
+    final Border? border;
     if (isCommitted) {
       color = isHovered ? colors.iconHover : colors.textPrimary;
+      border = null;
     } else if (isPreview) {
       color = colors.textTertiary;
+      border = null;
     } else {
-      color = colors.surfaceVariant;
+      // Outline + surface fill so empty cells stay visible on surfaceVariant panels.
+      color = colors.surface;
+      border = Border.all(color: colors.border, width: 1);
     }
 
     return MouseRegion(
@@ -93,6 +98,7 @@ class StrengthBox extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(2),
+              border: border,
             ),
           ),
         ),

@@ -324,22 +324,16 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
     required VoidCallback onTap,
   }) {
     final colors = AppColors.of(context);
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: selected ? colors.surfaceHover : colors.surfaceVariant,
-            borderRadius: BorderRadius.circular(AppRadius.full),
-            border: Border.all(
-              color: selected ? colors.textPrimary : Colors.transparent,
-            ),
-          ),
-          child: Text(label, style: AppTypography.labelMedium),
-        ),
+    return OutlinedButton(
+      onPressed: onTap,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: selected ? colors.surfaceHover : colors.surface,
+        foregroundColor: colors.textPrimary,
+        side: BorderSide(color: selected ? colors.textPrimary : colors.border),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
       ),
+      child: Text(label, style: AppTypography.labelMedium),
     );
   }
 

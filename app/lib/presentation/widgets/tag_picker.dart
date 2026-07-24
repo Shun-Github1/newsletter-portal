@@ -61,14 +61,15 @@ class _TagPickerState extends State<TagPicker> {
             hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
             prefixIcon: Icon(Icons.search, size: 16, color: AppColors.of(context).textSecondary),
             filled: true,
-            fillColor: AppColors.of(context).surfaceVariant,
+            // Surface (not surfaceVariant) so the field reads on section cards.
+            fillColor: AppColors.of(context).surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: AppColors.of(context).border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: AppColors.of(context).border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
@@ -82,8 +83,9 @@ class _TagPickerState extends State<TagPicker> {
         Container(
           constraints: const BoxConstraints(maxHeight: 300),
           decoration: BoxDecoration(
-            color: AppColors.of(context).surfaceVariant,
+            color: AppColors.of(context).surface,
             borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: AppColors.of(context).border),
           ),
           child: ListView.builder(
             shrinkWrap: true,
