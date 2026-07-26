@@ -191,7 +191,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                     Text(
                       'Live section preview',
                       style: AppTypography.panelTitle.copyWith(
-                        color: AppColors.of(context).textPrimary,
+                        color: AppColors.of(context).textSecondary,
                       ),
                     ),
                     const SizedBox(height: 2),

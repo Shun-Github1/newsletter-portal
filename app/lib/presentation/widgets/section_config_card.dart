@@ -111,7 +111,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                         ? TextField(
                             controller: _titleController,
                             style: AppTypography.panelTitle.copyWith(
-                              color: AppColors.of(context).textPrimary,
+                              color: AppColors.of(context).textSecondary,
                             ),
                             decoration: const InputDecoration(
                               isDense: true,
@@ -124,7 +124,7 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
                         : Text(
                             widget.section.title,
                             style: AppTypography.panelTitle.copyWith(
-                              color: AppColors.of(context).textPrimary,
+                              color: AppColors.of(context).textSecondary,
                             ),
                           ),
                   ),

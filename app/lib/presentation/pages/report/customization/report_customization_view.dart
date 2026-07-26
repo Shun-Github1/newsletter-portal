@@ -124,7 +124,9 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
               const SizedBox(height: AppSpacing.xl),
               Text(
                 'Sections',
-                style: AppTypography.panelTitle,
+                style: AppTypography.panelTitle.copyWith(
+                  color: AppColors.of(context).textSecondary,
+                ),
               ),
               const SizedBox(height: AppSpacing.md),
               ...sections.map((section) => Padding(
@@ -237,7 +239,9 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
       children: [
         Text(
           'Format',
-          style: AppTypography.panelTitle,
+          style: AppTypography.panelTitle.copyWith(
+            color: AppColors.of(context).textSecondary,
+          ),
         ),
         const SizedBox(height: AppSpacing.md),
 
@@ -362,7 +366,12 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
                     children: [
                       const AppIcon(Icons.description, size: 18),
                       const SizedBox(width: AppSpacing.sm),
-                      Text('Template Editor', style: AppTypography.panelTitle),
+                      Text(
+                        'Template Editor',
+                        style: AppTypography.panelTitle.copyWith(
+                          color: AppColors.of(context).textSecondary,
+                        ),
+                      ),
                     ],
                   ),
                   AppIcon(

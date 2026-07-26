@@ -233,7 +233,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                 Text(
                   'Presets',
                   style: AppTypography.panelTitle.copyWith(
-                    color: AppColors.of(context).textPrimary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
                 AppIconButton(
@@ -470,7 +470,9 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               children: [
                 Text(
                   'Filters',
-                  style: AppTypography.panelTitle,
+                  style: AppTypography.panelTitle.copyWith(
+                    color: AppColors.of(context).textSecondary,
+                  ),
                 ),
                 if (activeFiltersCount > 0) ...[
                   const SizedBox(width: 6),

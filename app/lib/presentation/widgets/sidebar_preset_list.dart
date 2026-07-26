@@ -100,7 +100,7 @@ class SidebarPresetList extends StatelessWidget {
               Text(
                 'Projects',
                 style: AppTypography.panelTitle.copyWith(
-                  color: AppColors.of(context).textPrimary,
+                  color: AppColors.of(context).textSecondary,
                 ),
               ),
               AppIconButton(
