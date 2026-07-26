@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsletter_portal/core/theme/app_theme.dart';
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 import 'package:newsletter_portal/core/theme/app_spacing.dart';
+import 'package:newsletter_portal/core/constants/api_constants.dart';
 import 'package:newsletter_portal/presentation/widgets/strength_box.dart';
 
 class RegionRelevanceGrid extends StatelessWidget {
@@ -13,10 +14,6 @@ class RegionRelevanceGrid extends StatelessWidget {
     required this.values,
     required this.onChanged,
   });
-
-  static const List<String> _regions = [
-    'North America', 'Europe', 'Asia Pacific', 'Latin America', 'Middle East', 'Africa'
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +30,7 @@ class RegionRelevanceGrid extends StatelessWidget {
           ),
         ),
         Column(
-          children: _regions.map((region) {
+          children: AppRegion.values.map((region) {
             return _buildSliderRow(context, region);
           }).toList(),
         ),
@@ -41,8 +38,8 @@ class RegionRelevanceGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildSliderRow(BuildContext context, String region) {
-    final currentValue = values[region] ?? 1;
+  Widget _buildSliderRow(BuildContext context, AppRegion region) {
+    final currentValue = values[region.tag] ?? values[region.displayName] ?? 1;
 
     return Container(
       height: 32,
@@ -52,7 +49,7 @@ class RegionRelevanceGrid extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              region,
+              region.displayName,
               style: AppTypography.bodySmall.copyWith(color: AppColors.of(context).textPrimary),
               overflow: TextOverflow.ellipsis,
             ),
@@ -61,7 +58,7 @@ class RegionRelevanceGrid extends StatelessWidget {
             flex: 3,
             child: StrengthBar(
               value: currentValue,
-              onChanged: (weight) => onChanged(region, weight),
+              onChanged: (weight) => onChanged(region.tag, weight),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
@@ -78,3 +75,4 @@ class RegionRelevanceGrid extends StatelessWidget {
     );
   }
 }
+

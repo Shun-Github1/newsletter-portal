@@ -41,8 +41,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color errorSoft;
 
   // Shared across themes
-  static const Color accent = Color(0xFF239B98);
-  static const Color accentDim = Color(0xFF1B7A78);
+  static const Color accent = Color(0xFF3D776C);
+  static const Color accentDim = Color(0xFF2E5B53);
   static const Color onAccent = Color(0xFFFFFFFF);
   static const Color warning = Color(0xFFB26A00);
   static const Color error = Color(0xFFD92D20);
@@ -66,7 +66,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textTertiary: Color(0xFF9A9AA5),
     icon: Color(0xFF6B6B76),
     iconHover: Color(0xFF0D0D0D),
-    accentSoft: Color(0xFFE9F5F4),
+    accentSoft: Color(0xFFEAF1F0),
     warningSoft: Color(0xFFFCF3E6),
     errorSoft: Color(0xFFFDECEA),
   );
@@ -84,7 +84,7 @@ class AppColors extends ThemeExtension<AppColors> {
     textTertiary: Color(0xFF6E6E78),
     icon: Color(0xFFA0A0AB),
     iconHover: Color(0xFFFFFFFF),
-    accentSoft: Color(0xFF163534),
+    accentSoft: Color(0xFF182F2B),
     warningSoft: Color(0xFF332A00),
     errorSoft: Color(0xFF3A1515),
   );

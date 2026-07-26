@@ -22,7 +22,7 @@ Language fallback:
 
 ---
 
-## Authentication
+## 1. Authentication
 
 ### Register
 `POST /auth/register`
@@ -172,7 +172,7 @@ Anything beyond this point (everything except `/auth/` endpoints) will return da
 }
 ```
 
-## User Profile
+## 2. User Profile
 
 ### Get Profile Information
 `GET /profile`
@@ -467,7 +467,7 @@ OR
 
 ---
 
-## Feeds
+## 3. Feeds
 
 ### Get Home Feed
 `GET /feed`
@@ -584,7 +584,7 @@ Returns 3-6 randomly selected trending topics with localized display names.
 
 ---
 
-## Articles
+## 4. Articles
 
 ### Get Article
 `GET /article/{id OR title}`
@@ -670,7 +670,7 @@ Returns 3-6 randomly selected trending topics with localized display names.
 
 ---
 
-## Search
+## 5. Search
 
 ### Search Articles
 `GET /search?q={query}`
@@ -734,7 +734,7 @@ Returns 3-6 randomly selected trending topics with localized display names.
 
 ---
 
-## Info
+## 6. Info
 
 ### Publisher Information
 `GET /info/publisher/{id}`
@@ -764,7 +764,7 @@ Returns 3-6 randomly selected trending topics with localized display names.
 
 ---
 
-## Other Endpoints
+## 7. Other Endpoints
 
 ### Notifications
 `POST /notifications`  

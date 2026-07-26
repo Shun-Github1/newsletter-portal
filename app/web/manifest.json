@@ -4,7 +4,7 @@
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",
-    "theme_color": "#239B98",
+    "theme_color": "#3d776c",
     "description": "Newsletter Portal — media monitoring & report builder.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
