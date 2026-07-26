@@ -226,7 +226,7 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.sm),
+            padding: const EdgeInsets.all(AppSpacing.md),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -236,13 +236,12 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
                     color: AppColors.of(context).textPrimary,
                   ),
                 ),
-                InkWell(
-                  onTap: () => _showSavePresetDialog(context),
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                  child: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: AppIcon(Icons.add, size: 16),
-                  ),
+                AppIconButton(
+                  icon: Icons.add,
+                  size: 16,
+                  onPressed: () => _showSavePresetDialog(context),
+                  padding: const EdgeInsets.all(4),
+                  tooltip: 'Add preset',
                 ),
               ],
             ),

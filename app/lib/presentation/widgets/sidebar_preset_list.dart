@@ -99,14 +99,16 @@ class SidebarPresetList extends StatelessWidget {
             children: [
               Text(
                 'Projects',
-                style: AppTypography.panelTitle,
+                style: AppTypography.panelTitle.copyWith(
+                  color: AppColors.of(context).textPrimary,
+                ),
               ),
               AppIconButton(
                 icon: Icons.add,
                 size: 16,
                 onPressed: onAdd,
                 padding: const EdgeInsets.all(4),
-                tooltip: 'Add preset',
+                tooltip: 'Add project',
               ),
             ],
           ),

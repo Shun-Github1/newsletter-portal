@@ -17,6 +17,8 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textTertiary,
     required this.icon,
     required this.iconHover,
+    required this.accent,
+    required this.accentDim,
     required this.accentSoft,
     required this.warningSoft,
     required this.errorSoft,
@@ -36,13 +38,14 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color icon;
   /// Icon color on hover — black in light, white in dark.
   final Color iconHover;
+  final Color accent;
+  final Color accentDim;
   final Color accentSoft;
   final Color warningSoft;
   final Color errorSoft;
 
-  // Shared across themes
-  static const Color accent = Color(0xFF3D776C);
-  static const Color accentDim = Color(0xFF2E5B53);
+  // Shared / default fallbacks
+  static const Color accentDefault = Color(0xFF239B98);
   static const Color onAccent = Color(0xFFFFFFFF);
   static const Color warning = Color(0xFFB26A00);
   static const Color error = Color(0xFFD92D20);
@@ -52,6 +55,10 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color terminalGreen = Color(0xFF12805C);
   static const Color terminalRed = Color(0xFFD92D20);
   static const Color terminalAmber = Color(0xFFB26A00);
+
+  // Static alias for light-mode accent (#239B98)
+  static const Color accent = Color(0xFF239B98);
+  static const Color accentDim = Color(0xFF1B7A78);
 
   static const AppColors light = AppColors(
     background: Color(0xFFFFFFFF),
@@ -66,7 +73,9 @@ class AppColors extends ThemeExtension<AppColors> {
     textTertiary: Color(0xFF9A9AA5),
     icon: Color(0xFF6B6B76),
     iconHover: Color(0xFF0D0D0D),
-    accentSoft: Color(0xFFEAF1F0),
+    accent: Color(0xFF239B98),
+    accentDim: Color(0xFF1B7A78),
+    accentSoft: Color(0xFFE9F5F4),
     warningSoft: Color(0xFFFCF3E6),
     errorSoft: Color(0xFFFDECEA),
   );
@@ -84,6 +93,8 @@ class AppColors extends ThemeExtension<AppColors> {
     textTertiary: Color(0xFF6E6E78),
     icon: Color(0xFFA0A0AB),
     iconHover: Color(0xFFFFFFFF),
+    accent: Color(0xFF3D776C),
+    accentDim: Color(0xFF2E5B53),
     accentSoft: Color(0xFF182F2B),
     warningSoft: Color(0xFF332A00),
     errorSoft: Color(0xFF3A1515),
@@ -108,6 +119,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textTertiary,
     Color? icon,
     Color? iconHover,
+    Color? accent,
+    Color? accentDim,
     Color? accentSoft,
     Color? warningSoft,
     Color? errorSoft,
@@ -125,6 +138,8 @@ class AppColors extends ThemeExtension<AppColors> {
       textTertiary: textTertiary ?? this.textTertiary,
       icon: icon ?? this.icon,
       iconHover: iconHover ?? this.iconHover,
+      accent: accent ?? this.accent,
+      accentDim: accentDim ?? this.accentDim,
       accentSoft: accentSoft ?? this.accentSoft,
       warningSoft: warningSoft ?? this.warningSoft,
       errorSoft: errorSoft ?? this.errorSoft,
@@ -147,6 +162,8 @@ class AppColors extends ThemeExtension<AppColors> {
       textTertiary: Color.lerp(textTertiary, other.textTertiary, t)!,
       icon: Color.lerp(icon, other.icon, t)!,
       iconHover: Color.lerp(iconHover, other.iconHover, t)!,
+      accent: Color.lerp(accent, other.accent, t)!,
+      accentDim: Color.lerp(accentDim, other.accentDim, t)!,
       accentSoft: Color.lerp(accentSoft, other.accentSoft, t)!,
       warningSoft: Color.lerp(warningSoft, other.warningSoft, t)!,
       errorSoft: Color.lerp(errorSoft, other.errorSoft, t)!,
@@ -179,9 +196,9 @@ class AppTheme {
       extensions: [colors],
       colorScheme: ColorScheme(
         brightness: brightness,
-        primary: AppColors.accent,
+        primary: colors.accent,
         onPrimary: AppColors.onAccent,
-        secondary: AppColors.accentDim,
+        secondary: colors.accentDim,
         onSecondary: AppColors.onAccent,
         surface: colors.surface,
         onSurface: colors.textPrimary,
@@ -237,7 +254,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+          borderSide: BorderSide(color: colors.accent, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -251,7 +268,7 @@ class AppTheme {
       // Important actions use the accent.
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.accent,
+          backgroundColor: colors.accent,
           foregroundColor: AppColors.onAccent,
           disabledBackgroundColor: colors.surfaceHover,
           disabledForegroundColor: colors.textTertiary,
@@ -274,18 +291,18 @@ class AppTheme {
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return AppColors.accent;
+          if (states.contains(WidgetState.selected)) return colors.accent;
           return null;
         }),
         checkColor: WidgetStateProperty.all(AppColors.onAccent),
         side: BorderSide(color: colors.border, width: 1.5),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: AppColors.accent,
+        color: colors.accent,
       ),
       sliderTheme: SliderThemeData(
-        activeTrackColor: AppColors.accent,
-        thumbColor: AppColors.accent,
+        activeTrackColor: colors.accent,
+        thumbColor: colors.accent,
         inactiveTrackColor: colors.border,
       ),
       snackBarTheme: SnackBarThemeData(

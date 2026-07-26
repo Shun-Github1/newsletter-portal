@@ -69,13 +69,16 @@ Text('12:45:00', style: AppTypography.monoExtraSmall);
 
 ## 4. Primary Brand Color Palette
 
-The portal uses a serious, professional dark teal tone for all primary interactive accents, brand elements, and focus states.
+The portal features adaptive green/teal accent styling tuned for brand alignment and interface seriousness across themes:
+- **Light Mode Accent**: `#239B98` (`0xFF239B98`) - Preserved to match the light-mode brand logo.
+- **Dark Mode Accent**: `#3D776C` (`0xFF3D776C`) - Darker, serious teal tone tailored for dark-mode interface elements.
 
-| Token | Hex / Value | Description |
-| :--- | :--- | :--- |
-| `AppColors.accent` | `#3D776C` (`0xFF3D776C`) | Primary brand accent color (buttons, active sliders, selected chips, focus borders). |
-| `AppColors.accentDim` | `#2E5B53` (`0xFF2E5B53`) | Secondary/hover accent shade. |
-| `AppColors.accentSoft` | `#EAF1F0` (Light) / `#182F2B` (Dark) | Subtle background tint for selected items and active panels. |
+| Token | Theme Mode | Hex / Value | Description |
+| :--- | :--- | :--- | :--- |
+| `AppColors.accent` | **Light** | `#239B98` (`0xFF239B98`) | Primary light mode brand accent (matches light mode logo). |
+| `AppColors.accent` | **Dark** | `#3D776C` (`0xFF3D776C`) | Primary dark mode brand accent (serious dark teal tone). |
+| `AppColors.accentDim` | **Light / Dark** | `#1B7A78` / `#2E5B53` | Secondary / hover accent shades. |
+| `AppColors.accentSoft` | **Light / Dark** | `#E9F5F4` / `#182F2B` | Subtle background tint for selected items and active panels. |
 
 ---
 
