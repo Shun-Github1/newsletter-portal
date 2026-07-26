@@ -63,23 +63,27 @@ class ArticleSelectionView extends ConsumerWidget {
         spacing: AppSpacing.md,
         runSpacing: AppSpacing.sm,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppIconButton(
-                icon: Icons.arrow_back,
-                size: 20,
-                onPressed: () {
-                  ref.read(reportStateProvider.notifier).goBack();
-                },
-                tooltip: 'Back to Configuration',
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Text(
-                'Article Selection',
-                style: AppTypography.pageTitle,
-              ),
-            ],
+          SizedBox(
+            height: 32,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AppIconButton(
+                  icon: Icons.arrow_back,
+                  size: 20,
+                  onPressed: () {
+                    ref.read(reportStateProvider.notifier).goBack();
+                  },
+                  tooltip: 'Back to Configuration',
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  'Article Selection',
+                  style: AppTypography.pageTitle,
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,

@@ -183,9 +183,18 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
         spacing: AppSpacing.md,
         runSpacing: AppSpacing.sm,
         children: [
-          Text(
-            'Report Configuration',
-            style: AppTypography.pageTitle,
+          SizedBox(
+            height: 32,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Report Configuration',
+                  style: AppTypography.pageTitle,
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,

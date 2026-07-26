@@ -94,23 +94,27 @@ class _ReportPreviewViewState extends ConsumerState<ReportPreviewView> {
         spacing: AppSpacing.md,
         runSpacing: AppSpacing.sm,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppIconButton(
-                icon: Icons.arrow_back,
-                size: 20,
-                onPressed: () {
-                  ref.read(reportStateProvider.notifier).proceedToSelection();
-                },
-                tooltip: 'Back to Article Selection',
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Text(
-                'Report Preview',
-                style: AppTypography.pageTitle,
-              ),
-            ],
+          SizedBox(
+            height: 32,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AppIconButton(
+                  icon: Icons.arrow_back,
+                  size: 20,
+                  onPressed: () {
+                    ref.read(reportStateProvider.notifier).proceedToSelection();
+                  },
+                  tooltip: 'Back to Article Selection',
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  'Report Preview',
+                  style: AppTypography.pageTitle,
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
