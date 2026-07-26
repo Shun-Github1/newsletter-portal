@@ -9,10 +9,10 @@ This document outlines the consolidated typography design system for the **Newsl
 1. **Strict 2-Font Family Policy**:
    - **Primary Headers & Navigation**: `Open Sans` (`GoogleFonts.openSans()`) - All display headings, page titles, panel titles, and section headers.
    - **Body, Inputs & Terminal UI**: `IBM Plex Sans` (`GoogleFonts.ibmPlexSans()`) - All interface body text, list items, labels, buttons, data grids, and terminal feeds.
-2. **Consolidated Header Scale**: Page step titles (`pageTitle`) and sidebar/panel headers (`panelTitle`) strictly share the exact same **16px** font size (`titleMedium`, Open Sans, SemiBold w600) to simplify font options across all portal headers.
+2. **Semantic Header Hierarchy**: Standardized size scale for headings (28px display, 24px headline, 20px subheadline, 18px page title, 16px panel title, 14px section title, 12px subsection title).
 3. **Structured Body Tier Scale**: Body & UI font sizes are restricted to **16px** (large), **13px** (medium/standard), and **11px** (small/micro).
 4. **No Inline Size Overrides**: Defining custom `fontSize: ...` values inside widget trees is strictly prohibited. All widgets must consume tokens from `AppTypography` (`lib/core/theme/app_typography.dart`) or `Theme.of(context).textTheme`.
-5. **Universal 16px Dark Gray Header Standard**: All page step titles (`AppTypography.pageTitle`, e.g. **Report Configuration**, **Article Selection**, **Report Preview**) and panel/sidebar headers (`AppTypography.panelTitle`, e.g. **Presets**, **Projects**, **Filters**, **Sections**, **Format**) share the exact same **16px** font size and dark gray text color (`AppColors.of(context).textSecondary`) across the board.
+5. **Universal Dark Gray Header Standard**: All page step titles (`AppTypography.pageTitle`, e.g. **Report Configuration**, **Article Selection**, **Report Preview**) and panel/sidebar headers (`AppTypography.panelTitle`, e.g. **Presets**, **Projects**, **Filters**, **Sections**, **Format**) MUST consistently use dark gray text (`AppColors.of(context).textSecondary`) across the board for clean, universal, and unified header typography.
 
 ---
 
@@ -23,8 +23,8 @@ This document outlines the consolidated typography design system for the **Newsl
 | **Hero / Display** | `displayLarge` | Open Sans | **28px** | Bold (w700) | Hero titles, report cover titles |
 | **Headline Large** | `headlineLarge` | Open Sans | **24px** | Bold (w700) | Main view titles, major section headers |
 | **Headline Medium** | `headlineMedium` | Open Sans | **20px** | SemiBold (w600) | Secondary view titles, modal headers |
-| **Page Step Title** | `pageTitle` / `titleMedium` | Open Sans | **16px** | SemiBold (w600) | Step titles (Report Configuration, Selection, Preview) |
-| **Panel Title** | `panelTitle` / `titleMedium` | Open Sans | **16px** | SemiBold (w600) | Sidebar headers (Projects, Presets, Filters, Sections) |
+| **Page Title** | `pageTitle` / `titleLarge` | Open Sans | **18px** | SemiBold (w600) | Page titles, step titles, dialog headers |
+| **Panel Title** | `panelTitle` / `titleMedium` | Open Sans | **16px** | SemiBold (w600) | Sidebar headers, panel cards, modal subheaders |
 | **Section Title** | `sectionTitle` / `titleSmall` | Open Sans | **14px** | SemiBold (w600) | Group headers (Sectors, Regions, Tags) |
 | **Subsection Title**| `subsectionTitle` | Open Sans | **12px** | SemiBold (w600) | Nested headers (Hard/Soft Sectors) |
 | **Body Large** | `bodyLarge` | IBM Plex Sans | **16px** | Regular (w400) | Featured body text, article intro text |
@@ -39,11 +39,11 @@ This document outlines the consolidated typography design system for the **Newsl
 ```dart
 import 'package:newsletter_portal/core/theme/app_typography.dart';
 
-// Page Title (16px - matches sidebar header size)
+// Page Title (18px)
 Text('Report Configuration', style: AppTypography.pageTitle);
 
 // Panel Header (16px)
-Text('Presets', style: AppTypography.panelTitle);
+Text('Section Settings', style: AppTypography.panelTitle);
 
 // Group Header (14px)
 Text('Sectors', style: AppTypography.sectionTitle);
