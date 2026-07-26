@@ -36,7 +36,7 @@ abstract class AppTypography {
   );
 
   static TextStyle titleLarge = GoogleFonts.openSans(
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.15,
   );
@@ -57,8 +57,8 @@ abstract class AppTypography {
     fontWeight: FontWeight.w600,
   );
 
-  // Semantic aliases — prefer these at call sites for consistent hierarchy.
-  static TextStyle get pageTitle => titleLarge;
+  // Semantic aliases — Page step titles and panel headers share the exact same 16px font size.
+  static TextStyle get pageTitle => titleMedium;
   static TextStyle get panelTitle => titleMedium;
   static TextStyle get sectionTitle => titleSmall;
 
