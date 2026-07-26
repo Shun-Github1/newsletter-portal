@@ -134,7 +134,7 @@ class CompactTopBar extends ConsumerWidget {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(AppRadius.md),
-                              borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+                              borderSide: BorderSide(color: colors.accent, width: 1.5),
                             ),
                             prefixIcon: Icon(Icons.search, color: colors.icon, size: 16),
                           ),

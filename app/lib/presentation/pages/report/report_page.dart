@@ -202,12 +202,12 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                   ],
                 ),
                 if (isLoading)
-                  const Padding(
-                    padding: EdgeInsets.all(8),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
                     child: SizedBox(
                       width: 14,
                       height: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.of(context).accent),
                     ),
                   )
                 else

@@ -56,10 +56,6 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color terminalRed = Color(0xFFD92D20);
   static const Color terminalAmber = Color(0xFFB26A00);
 
-  // Static alias for light-mode accent (#239B98)
-  static const Color accent = Color(0xFF239B98);
-  static const Color accentDim = Color(0xFF1B7A78);
-
   static const AppColors light = AppColors(
     background: Color(0xFFFFFFFF),
     surface: Color(0xFFFFFFFF),
