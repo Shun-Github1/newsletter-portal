@@ -191,7 +191,9 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
               children: [
                 Text(
                   'Report Configuration',
-                  style: AppTypography.pageTitle,
+                  style: AppTypography.pageTitle.copyWith(
+                    color: AppColors.of(context).textSecondary,
+                  ),
                 ),
               ],
             ),

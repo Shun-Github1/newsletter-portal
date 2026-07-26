@@ -80,7 +80,9 @@ class ArticleSelectionView extends ConsumerWidget {
                 const SizedBox(width: AppSpacing.xs),
                 Text(
                   'Article Selection',
-                  style: AppTypography.pageTitle,
+                  style: AppTypography.pageTitle.copyWith(
+                    color: AppColors.of(context).textSecondary,
+                  ),
                 ),
               ],
             ),

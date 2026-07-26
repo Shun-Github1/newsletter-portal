@@ -12,7 +12,7 @@ This document outlines the consolidated typography design system for the **Newsl
 2. **Semantic Header Hierarchy**: Standardized size scale for headings (28px display, 24px headline, 20px subheadline, 18px page title, 16px panel title, 14px section title, 12px subsection title).
 3. **Structured Body Tier Scale**: Body & UI font sizes are restricted to **16px** (large), **13px** (medium/standard), and **11px** (small/micro).
 4. **No Inline Size Overrides**: Defining custom `fontSize: ...` values inside widget trees is strictly prohibited. All widgets must consume tokens from `AppTypography` (`lib/core/theme/app_typography.dart`) or `Theme.of(context).textTheme`.
-5. **Panel Header Dark Gray Standard**: All panel, menu, and sidebar section headers (`AppTypography.panelTitle`, e.g. **Presets**, **Projects**, **Filters**, **Sections**, **Format**) MUST consistently use dark gray text (`AppColors.of(context).textSecondary`) across the board rather than pure black or white (`textPrimary`).
+5. **Universal Dark Gray Header Standard**: All page step titles (`AppTypography.pageTitle`, e.g. **Report Configuration**, **Article Selection**, **Report Preview**) and panel/sidebar headers (`AppTypography.panelTitle`, e.g. **Presets**, **Projects**, **Filters**, **Sections**, **Format**) MUST consistently use dark gray text (`AppColors.of(context).textSecondary`) across the board for clean, universal, and unified header typography.
 
 ---
 
