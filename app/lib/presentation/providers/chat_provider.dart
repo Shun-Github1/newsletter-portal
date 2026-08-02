@@ -4,11 +4,16 @@ import 'package:newsletter_portal/domain/entities/chat_message.dart';
 import 'package:newsletter_portal/domain/entities/article.dart';
 import 'package:newsletter_portal/data/datasources/local/chat_local_datasource.dart';
 import 'package:newsletter_portal/core/network/local_llm_service.dart';
+import 'package:newsletter_portal/data/datasources/article_remote_datasource.dart';
+import 'package:newsletter_portal/presentation/providers/feed_provider.dart';
+import 'package:newsletter_portal/data/models/article_detail_model.dart';
 
 class ChatState {
   final String? activeProjectId;
   final List<ChatMessage> messages;
   final Set<String> contextArticleIds;
+  final Map<String, Article> fetchedArticles;
+  final Set<String> fetchingArticleIds;
   final bool isLoading;
   final String streamingText;
 
@@ -16,6 +21,8 @@ class ChatState {
     this.activeProjectId,
     this.messages = const [],
     this.contextArticleIds = const {},
+    this.fetchedArticles = const {},
+    this.fetchingArticleIds = const {},
     this.isLoading = false,
     this.streamingText = '',
   });
@@ -24,6 +31,8 @@ class ChatState {
     String? activeProjectId,
     List<ChatMessage>? messages,
     Set<String>? contextArticleIds,
+    Map<String, Article>? fetchedArticles,
+    Set<String>? fetchingArticleIds,
     bool? isLoading,
     String? streamingText,
   }) {
@@ -31,6 +40,8 @@ class ChatState {
       activeProjectId: activeProjectId ?? this.activeProjectId,
       messages: messages ?? this.messages,
       contextArticleIds: contextArticleIds ?? this.contextArticleIds,
+      fetchedArticles: fetchedArticles ?? this.fetchedArticles,
+      fetchingArticleIds: fetchingArticleIds ?? this.fetchingArticleIds,
       isLoading: isLoading ?? this.isLoading,
       streamingText: streamingText ?? this.streamingText,
     );
@@ -40,9 +51,10 @@ class ChatState {
 class ChatNotifier extends StateNotifier<ChatState> {
   final ChatLocalDatasource _datasource;
   final LocalLlmService _llmService;
+  final ArticleRemoteDatasource _articleDatasource;
   final _uuid = const Uuid();
 
-  ChatNotifier(this._datasource, this._llmService) : super(const ChatState());
+  ChatNotifier(this._datasource, this._llmService, this._articleDatasource) : super(const ChatState());
 
   Future<void> selectProject(String projectId) async {
     state = state.copyWith(
@@ -55,14 +67,55 @@ class ChatNotifier extends StateNotifier<ChatState> {
     state = state.copyWith(messages: history);
   }
 
-  void toggleArticleContext(String articleId) {
-    final updated = Set<String>.from(state.contextArticleIds);
-    if (updated.contains(articleId)) {
-      updated.remove(articleId);
-    } else {
-      updated.add(articleId);
+  Future<void> toggleArticleContext(String articleId) async {
+    final updatedContextIds = Set<String>.from(state.contextArticleIds);
+    if (updatedContextIds.contains(articleId)) {
+      updatedContextIds.remove(articleId);
+      state = state.copyWith(contextArticleIds: updatedContextIds);
+      return;
     }
-    state = state.copyWith(contextArticleIds: updated);
+
+    // Mark as fetching
+    final fetchingIds = Set<String>.from(state.fetchingArticleIds)..add(articleId);
+    state = state.copyWith(fetchingArticleIds: fetchingIds);
+
+    try {
+      final detailModel = await _articleDatasource.getArticle(articleId);
+      final fullArticle = _mapDetailModelToArticle(detailModel);
+
+      final newContextIds = Set<String>.from(state.contextArticleIds)..add(articleId);
+      final newFetched = Map<String, Article>.from(state.fetchedArticles)..[articleId] = fullArticle;
+      final newFetchingIds = Set<String>.from(state.fetchingArticleIds)..remove(articleId);
+
+      state = state.copyWith(
+        contextArticleIds: newContextIds,
+        fetchedArticles: newFetched,
+        fetchingArticleIds: newFetchingIds,
+      );
+    } catch (e) {
+      final newFetchingIds = Set<String>.from(state.fetchingArticleIds)..remove(articleId);
+      state = state.copyWith(fetchingArticleIds: newFetchingIds);
+    }
+  }
+
+  Article _mapDetailModelToArticle(ArticleDetailModel model) {
+    return Article(
+      id: model.articleID,
+      title: model.title,
+      imageUrl: model.pictureURL,
+      date: DateTime.tryParse(model.date) ?? DateTime.now(),
+      url: model.shareURL,
+      sentimentScore: model.metrics?.sentiment,
+      subjectivityScore: model.metrics?.subjectivity,
+      centricScore: model.coverage?.percentage?.centric,
+      progressiveScore: model.coverage?.percentage?.progressive,
+      region: model.region,
+      sector: model.sector,
+      sourceCount: model.articles?.length,
+      synopsis: model.description?.synopsis,
+      summary: model.description?.summary,
+      implications: model.description?.implications,
+    );
   }
 
   void removeArticleContext(String articleId) {
@@ -103,7 +156,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
     final chatMessages = <Map<String, String>>[];
 
     // 1. Build the system prompt if we have context articles
-    final attachedArticles = allArticles.where((a) => attachedIds.contains(a.id)).toList();
+    final attachedArticles = attachedIds
+        .map((id) => state.fetchedArticles[id])
+        .whereType<Article>()
+        .toList();
     
     String systemPrompt = 'You are an intelligent media monitor assistant in the Newsletter Portal. Assist the user with their queries about media monitoring, report generation, and news analysis.';
     chatMessages.add({'role': 'system', 'content': systemPrompt});
@@ -224,5 +280,6 @@ final chatLocalDatasourceProvider = Provider<ChatLocalDatasource>((ref) {
 final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>((ref) {
   final datasource = ref.watch(chatLocalDatasourceProvider);
   final llmService = ref.watch(localLlmServiceProvider);
-  return ChatNotifier(datasource, llmService);
+  final articleDatasource = ref.watch(articleRemoteDatasourceProvider);
+  return ChatNotifier(datasource, llmService, articleDatasource);
 });

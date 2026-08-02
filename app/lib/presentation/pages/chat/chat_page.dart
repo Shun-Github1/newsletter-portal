@@ -769,7 +769,13 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                     ),
                                   ),
                                   const SizedBox(width: 4),
-                                  if (isSelected)
+                                  if (chatState.fetchingArticleIds.contains(article.id))
+                                    SizedBox(
+                                      width: 14, 
+                                      height: 14, 
+                                      child: CircularProgressIndicator(strokeWidth: 2, color: colors.accent)
+                                    )
+                                  else if (isSelected)
                                     Icon(Icons.check_circle, size: 14, color: colors.accent)
                                   else
                                     Icon(Icons.add_circle_outline, size: 14, color: colors.icon),
