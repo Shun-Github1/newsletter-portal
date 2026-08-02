@@ -13,6 +13,9 @@ class ArticleModel {
   final String? sector;
   final int? nSources;
   final String? description;
+  final String? synopsis;
+  final String? summary;
+  final String? implications;
 
   const ArticleModel({
     required this.title,
@@ -26,33 +29,44 @@ class ArticleModel {
     this.sector,
     this.nSources,
     this.description,
+    this.synopsis,
+    this.summary,
+    this.implications,
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     String? desc;
+    String? parsedSynopsis;
+    String? parsedSummary;
+    String? parsedImplications;
+
     if (json['description'] is String && (json['description'] as String).trim().isNotEmpty) {
       desc = (json['description'] as String).trim();
     } else if (json['description'] is Map) {
       final descMap = json['description'] as Map<String, dynamic>;
-      final synopsis = descMap['synopsis'] as String?;
-      final implications = descMap['implications'] as String?;
-      final summary = descMap['summary'] as String? ?? descMap['description'] as String? ?? descMap['content'] as String?;
+      parsedSynopsis = descMap['synopsis'] as String?;
+      parsedImplications = descMap['implications'] as String?;
+      parsedSummary = descMap['summary'] as String?;
+      
+      final summaryFallback = descMap['summary'] as String? ?? descMap['description'] as String? ?? descMap['content'] as String?;
 
       final List<String> parts = [];
-      if (synopsis != null && synopsis.trim().isNotEmpty) {
-        parts.add(synopsis.trim());
+      if (parsedSynopsis != null && parsedSynopsis.trim().isNotEmpty) {
+        parts.add(parsedSynopsis.trim());
       }
-      if (implications != null && implications.trim().isNotEmpty) {
-        parts.add('Implications: ${implications.trim()}');
+      if (parsedImplications != null && parsedImplications.trim().isNotEmpty) {
+        parts.add('Implications: ${parsedImplications.trim()}');
       }
-      if (parts.isEmpty && summary != null && summary.trim().isNotEmpty) {
-        parts.add(summary.trim());
+      if (parts.isEmpty && summaryFallback != null && summaryFallback.trim().isNotEmpty) {
+        parts.add(summaryFallback.trim());
       }
       desc = parts.isNotEmpty ? parts.join('\n\n') : null;
     } else if (json['synopsis'] is String && (json['synopsis'] as String).trim().isNotEmpty) {
       desc = (json['synopsis'] as String).trim();
+      parsedSynopsis = desc;
     } else if (json['summary'] is String && (json['summary'] as String).trim().isNotEmpty) {
       desc = (json['summary'] as String).trim();
+      parsedSummary = desc;
     } else if (json['content'] is String && (json['content'] as String).trim().isNotEmpty) {
       desc = (json['content'] as String).trim();
     } else if (json['text'] is String && (json['text'] as String).trim().isNotEmpty) {
@@ -71,6 +85,9 @@ class ArticleModel {
       sector: json['sector'] as String?,
       nSources: json['nSources'] as int?,
       description: desc,
+      synopsis: parsedSynopsis,
+      summary: parsedSummary,
+      implications: parsedImplications,
     );
   }
 
@@ -87,6 +104,9 @@ class ArticleModel {
       'sector': sector,
       'nSources': nSources,
       'description': description,
+      'synopsis': synopsis,
+      'summary': summary,
+      'implications': implications,
     };
   }
 
@@ -102,6 +122,9 @@ class ArticleModel {
     String? sector,
     int? nSources,
     String? description,
+    String? synopsis,
+    String? summary,
+    String? implications,
   }) {
     return ArticleModel(
       title: title ?? this.title,
@@ -115,6 +138,9 @@ class ArticleModel {
       sector: sector ?? this.sector,
       nSources: nSources ?? this.nSources,
       description: description ?? this.description,
+      synopsis: synopsis ?? this.synopsis,
+      summary: summary ?? this.summary,
+      implications: implications ?? this.implications,
     );
   }
 }

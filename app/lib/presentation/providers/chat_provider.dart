@@ -121,10 +121,17 @@ class ChatNotifier extends StateNotifier<ChatState> {
           content += '---\n'
               'Title: ${art.title}\n'
               'Date: ${art.date.toIso8601String().split('T')[0]}\n'
+              'URL: ${art.url ?? "N/A"}\n'
               'Region: ${art.region ?? "Global"}\n'
               'Sector: ${art.sector ?? "General"}\n'
+              'Source Count: ${art.sourceCount ?? "N/A"}\n'
               'Sentiment: ${art.sentimentScore?.toStringAsFixed(2) ?? "N/A"}\n'
-              'Synopsis: ${art.synopsis ?? ""}\n';
+              'Subjectivity: ${art.subjectivityScore?.toStringAsFixed(2) ?? "N/A"}\n'
+              'Centricity: ${art.centricScore?.toStringAsFixed(2) ?? "N/A"}\n'
+              'Progressivity: ${art.progressiveScore?.toStringAsFixed(2) ?? "N/A"}\n'
+              'Synopsis: ${art.synopsis ?? "N/A"}\n'
+              'Summary: ${art.summary ?? "N/A"}\n'
+              'Implications: ${art.implications ?? "N/A"}\n';
         }
         content += '---';
       }

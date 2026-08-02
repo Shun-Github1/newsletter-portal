@@ -12,6 +12,7 @@ class Article {
   final String? sector;
   final int? sourceCount;
   final String? synopsis;
+  final String? summary;
   final String? implications;
 
   const Article({
@@ -28,6 +29,7 @@ class Article {
     this.sector,
     this.sourceCount,
     this.synopsis,
+    this.summary,
     this.implications,
   });
 
@@ -45,6 +47,7 @@ class Article {
     String? sector,
     int? sourceCount,
     String? synopsis,
+    String? summary,
     String? implications,
   }) {
     return Article(
@@ -61,6 +64,7 @@ class Article {
       sector: sector ?? this.sector,
       sourceCount: sourceCount ?? this.sourceCount,
       synopsis: synopsis ?? this.synopsis,
+      summary: summary ?? this.summary,
       implications: implications ?? this.implications,
     );
   }

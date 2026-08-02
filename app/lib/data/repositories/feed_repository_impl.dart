@@ -46,7 +46,9 @@ class FeedRepositoryImpl implements FeedRepository {
       region: model.region,
       sector: model.sector,
       sourceCount: model.nSources,
-      synopsis: model.description,
+      synopsis: model.synopsis ?? model.description,
+      summary: model.summary,
+      implications: model.implications,
     );
   }
 }
