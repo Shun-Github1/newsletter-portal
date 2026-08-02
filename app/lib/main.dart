@@ -8,6 +8,8 @@ import 'package:newsletter_portal/core/router/app_router.dart';
 import 'package:newsletter_portal/core/network/dio_client.dart';
 import 'package:newsletter_portal/presentation/providers/theme_provider.dart';
 
+import 'package:newsletter_portal/core/network/local_llm_service.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
@@ -41,21 +43,40 @@ void main() async {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(localLlmServiceProvider).startServer();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(themeModeProvider);
 
-    return MaterialApp.router(
-      title: 'Newsletter Portal',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
+    // Wrap in ExcludeSemantics to prevent Flutter from generating a semantics
+    // tree, which eliminates "Failed to update ui::AXTree" errors on Windows.
+    // This is safe for an internal desktop tool that doesn't need screen reader
+    // support.
+    return ExcludeSemantics(
+      child: MaterialApp.router(
+        title: 'Newsletter Portal',
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeMode,
+        routerConfig: router,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

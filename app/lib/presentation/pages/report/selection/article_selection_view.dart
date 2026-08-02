@@ -154,6 +154,9 @@ class _SectionPanelState extends State<_SectionPanel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           InkWell(
+            borderRadius: _isExpanded
+                ? const BorderRadius.vertical(top: Radius.circular(8))
+                : BorderRadius.circular(8),
             onTap: () {
               setState(() {
                 _isExpanded = !_isExpanded;

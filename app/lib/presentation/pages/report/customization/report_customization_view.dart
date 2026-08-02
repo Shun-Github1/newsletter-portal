@@ -363,6 +363,9 @@ class _ReportCustomizationViewState extends ConsumerState<ReportCustomizationVie
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           InkWell(
+            borderRadius: _isTemplateExpanded
+                ? const BorderRadius.vertical(top: Radius.circular(8))
+                : BorderRadius.circular(8),
             onTap: () {
               setState(() {
                 _isTemplateExpanded = !_isTemplateExpanded;

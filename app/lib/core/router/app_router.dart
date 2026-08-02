@@ -6,6 +6,7 @@ import 'package:newsletter_portal/presentation/pages/auth/login_page.dart';
 import 'package:newsletter_portal/presentation/pages/auth/register_page.dart';
 import 'package:newsletter_portal/presentation/pages/report/report_page.dart';
 import 'package:newsletter_portal/presentation/pages/terminal/terminal_page.dart';
+import 'package:newsletter_portal/presentation/pages/chat/chat_page.dart';
 
 /// Notifies GoRouter when auth changes without recreating the router
 /// (recreating remounts LoginPage and clears the text fields mid-submit).
@@ -74,6 +75,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/terminal',
         pageBuilder: (context, state) => const NoTransitionPage(
           child: TerminalPage(),
+        ),
+      ),
+      GoRoute(
+        path: '/chat',
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: ChatPage(),
         ),
       ),
     ],

@@ -38,3 +38,8 @@ flutter:
   assets:
     - assets/images/logo_light.png
     - assets/images/logo_dark.png
+    - assets/llm/llama-server.exe
+    - assets/llm/llama.dll
+    - assets/llm/ggml.dll
+    - assets/llm/llava_shared.dll
+    - assets/llm/qwen2.5-0.5b-instruct-q4_k_m.gguf

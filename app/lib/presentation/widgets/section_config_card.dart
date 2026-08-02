@@ -96,6 +96,9 @@ class _SectionConfigCardState extends State<SectionConfigCard> {
         children: [
           // Header
           InkWell(
+            borderRadius: _isExpanded
+                ? const BorderRadius.vertical(top: Radius.circular(AppRadius.lg))
+                : BorderRadius.circular(AppRadius.lg),
             onTap: () => setState(() => _isExpanded = !_isExpanded),
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.md),

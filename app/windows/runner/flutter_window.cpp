@@ -65,6 +65,13 @@ FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
     case WM_FONTCHANGE:
       flutter_controller_->engine()->ReloadSystemFonts();
       break;
+    case WM_GETOBJECT:
+      // Block Windows accessibility (UI Automation / UIA) queries to prevent
+      // Flutter's accessibility bridge from crashing with "Failed to update
+      // ui::AXTree" errors. This is a known Flutter engine bug on Windows.
+      // Returning 0 tells Windows that this window does not support the
+      // requested accessibility interface, silencing the AXTree errors.
+      return 0;
   }
 
   return Win32Window::MessageHandler(hwnd, message, wparam, lparam);

@@ -11,6 +11,7 @@ import 'package:newsletter_portal/presentation/providers/auth_provider.dart';
 import 'package:newsletter_portal/presentation/providers/theme_provider.dart';
 import 'package:newsletter_portal/presentation/widgets/app_icon_button.dart';
 import 'package:newsletter_portal/presentation/widgets/brand_logo.dart';
+import 'package:newsletter_portal/core/network/local_llm_service.dart';
 
 class CompactTopBar extends ConsumerWidget {
   final String activeRoute; // '/terminal' or '/report'
@@ -43,6 +44,8 @@ class CompactTopBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isTerminal = activeRoute == '/terminal';
+    final isReport = activeRoute == '/report';
+    final isChat = activeRoute == '/chat';
     final colors = AppColors.of(context);
     final themeMode = ref.watch(themeModeProvider);
 
@@ -97,7 +100,15 @@ class CompactTopBar extends ConsumerWidget {
                         colors: colors,
                         label: 'Report',
                         route: '/report',
-                        isActive: !isTerminal,
+                        isActive: isReport,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      _buildNavTab(
+                        context: context,
+                        colors: colors,
+                        label: 'Chat',
+                        route: '/chat',
+                        isActive: isChat,
                       ),
                     ],
                   ),
@@ -117,6 +128,8 @@ class CompactTopBar extends ConsumerWidget {
                         width: 180,
                         height: 32,
                         child: TextField(
+                          enableIMEPersonalizedLearning: false,
+                          spellCheckConfiguration: const SpellCheckConfiguration.disabled(),
                           style: AppTypography.labelMedium.copyWith(color: colors.textPrimary),
                           decoration: InputDecoration(
                             hintText: 'Search',
@@ -139,6 +152,75 @@ class CompactTopBar extends ConsumerWidget {
                             prefixIcon: Icon(Icons.search, color: colors.icon, size: 16),
                           ),
                         ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Consumer(
+                        builder: (context, ref, _) {
+                          final status = ref.watch(llmServerStatusProvider);
+                          final error = ref.watch(llmServerErrorProvider);
+                          
+                          final (dotColor, text, isStarting) = switch (status) {
+                            LlmServerStatus.online => (Colors.green, 'LLM Online', false),
+                            LlmServerStatus.starting => (Colors.orange, 'LLM Starting', true),
+                            LlmServerStatus.offline => (Colors.grey, 'LLM Offline', false),
+                            LlmServerStatus.error => (AppColors.of(context).textTertiary, 'LLM Error', false),
+                          };
+                          
+                          return Tooltip(
+                            message: error ?? text,
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Clicking manual trigger will restart the server
+                                  ref.read(localLlmServiceProvider).startServer();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: colors.surfaceVariant,
+                                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                                    border: Border.all(color: colors.borderLight, width: 0.5),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      if (isStarting)
+                                        const Padding(
+                                          padding: EdgeInsets.only(right: 6),
+                                          child: SizedBox(
+                                            width: 8,
+                                            height: 8,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 1.5,
+                                              color: Colors.orange,
+                                            ),
+                                          ),
+                                        )
+                                      else
+                                        Container(
+                                          width: 6,
+                                          height: 6,
+                                          margin: const EdgeInsets.only(right: 6),
+                                          decoration: BoxDecoration(
+                                            color: dotColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      Text(
+                                        text,
+                                        style: AppTypography.monoTiny.copyWith(
+                                          color: colors.textSecondary,
+                                          fontSize: 9,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       AppIconButton(

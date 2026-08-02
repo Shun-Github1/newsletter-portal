@@ -96,6 +96,8 @@ class _TerminalPageState extends ConsumerState<TerminalPage> {
               const SizedBox(height: AppSpacing.sm),
               TextField(
                 controller: controller,
+                enableIMEPersonalizedLearning: false,
+                spellCheckConfiguration: const SpellCheckConfiguration.disabled(),
                 style: AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary),
                 decoration: InputDecoration(
                   filled: true,
