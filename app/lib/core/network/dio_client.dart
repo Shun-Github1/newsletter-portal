@@ -29,8 +29,8 @@ class DioClient {
   DioClient() {
     _dio = Dio(BaseOptions(
       baseUrl: ApiConstants.baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
       contentType: Headers.jsonContentType,
       responseType: ResponseType.json,
       extra: kIsWeb ? {'withCredentials': true} : {},
