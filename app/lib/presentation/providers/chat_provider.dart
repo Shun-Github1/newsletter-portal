@@ -203,7 +203,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       final stream = _llmService.chatStream(chatMessages);
       final buffer = StringBuffer();
       DateTime lastFlush = DateTime.now();
-      const flushInterval = Duration(milliseconds: 30);
+      const flushInterval = Duration(milliseconds: 50);
 
       await for (final chunk in stream) {
         if (!mounted || state.activeProjectId != projectId) return;

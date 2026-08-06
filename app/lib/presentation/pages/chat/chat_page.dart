@@ -53,11 +53,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     super.dispose();
   }
 
-  void _scrollToBottom() {
+  void _scrollToBottom({bool animate = false}) {
     if (_scrollController.hasClients) {
-      _scrollController.jumpTo(
-        _scrollController.position.maxScrollExtent + 100,
-      );
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      if (animate) {
+        _scrollController.animateTo(
+          maxScroll,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      } else {
+        _scrollController.jumpTo(maxScroll);
+      }
     }
   }
 
@@ -79,8 +86,28 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     }
 
     ref.listen<ChatState>(chatProvider, (previous, next) {
-      if (next.isLoading || next.streamingText.isNotEmpty || (previous != null && next.messages.length > previous.messages.length)) {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+      bool shouldScroll = false;
+      bool animate = false;
+
+      if (previous != null && next.messages.length > previous.messages.length) {
+        shouldScroll = true;
+        animate = true;
+      } else if (next.isLoading && previous?.isLoading == false) {
+        shouldScroll = true;
+        animate = true;
+      } else if (next.streamingText.isNotEmpty) {
+        if (_scrollController.hasClients) {
+          final pos = _scrollController.position;
+          if (pos.maxScrollExtent - pos.pixels <= 150) {
+            shouldScroll = true;
+          }
+        } else {
+          shouldScroll = true;
+        }
+      }
+
+      if (shouldScroll) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom(animate: animate));
       }
     });
 
